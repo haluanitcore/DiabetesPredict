@@ -26,7 +26,8 @@ fi
 # --- 4. Cache konfigurasi (semua non-fatal) ---
 php artisan config:clear 2>&1 || true
 php artisan config:cache 2>&1 || echo ">> WARNING: config:cache gagal"
-php artisan route:cache  2>&1 || echo ">> WARNING: route:cache gagal"
+# route:cache SENGAJA tidak dipakai: web.php punya route closure (Route::get('/', fn))
+# yang membuat route:cache selalu gagal. Route tetap berfungsi tanpa cache.
 php artisan view:cache   2>&1 || echo ">> WARNING: view:cache gagal"
 php artisan storage:link 2>&1 || true
 
