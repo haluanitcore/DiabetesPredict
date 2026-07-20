@@ -9,6 +9,14 @@ sed -i "s/\*:8080>/\*:${PORT}>/"         /etc/apache2/sites-available/000-defaul
 grep -q "ServerName" /etc/apache2/apache2.conf || echo "ServerName localhost" >> /etc/apache2/apache2.conf
 echo ">> Apache akan listen di port ${PORT}"
 
+# --- 1b. Cegah APP_URL placeholder tak valid (mis. "https://") -> "Invalid URI" ---
+case "${APP_URL}" in
+    ""|"http://"|"https://")
+        export APP_URL="http://localhost"
+        echo ">> APP_URL tidak valid/placeholder -> sementara http://localhost. Set APP_URL ke domain Railway (mis. https://xxx.up.railway.app)."
+        ;;
+esac
+
 # --- 2. Pastikan ada .env berisi HANYA baris APP_KEY= ---
 if [ ! -f .env ]; then
     printf 'APP_KEY=\n' > .env
