@@ -97,6 +97,24 @@ Migrasi ke microservice ML + Redis hanya jika/ketika ada kebutuhan skala nyata.
 
 > Untuk skripsi/demo dengan trafik rendah → **Opsi A**. Bila jadi produk nyata → **Opsi B**.
 
+### Opsi B sudah disiapkan (folder `ml-service/`)
+Aplikasi kini mendukung **kedua mode** lewat env `ML_MODE`:
+- `ML_MODE=exec` (default) → monolit, tak butuh service tambahan.
+- `ML_MODE=http` → panggil FastAPI (`ml-service/`) via `ML_SERVICE_URL`.
+
+**Deploy microservice di Railway:**
+1. Add service baru dari repo yang sama → Settings: **Root Directory `/`**, **Dockerfile Path `ml-service/Dockerfile`**.
+2. Railway generate host internal, mis. `ml-service.railway.internal`.
+3. Di service **App**, set `ML_MODE=http` dan `ML_SERVICE_URL=http://ml-service.railway.internal:8000`
+   (private networking — tidak kena biaya egress, tak perlu domain publik untuk ML service).
+4. Health check ML service: `GET /health`.
+
+| File microservice | Fungsi |
+|-------------------|--------|
+| `ml-service/main.py` | FastAPI: load model sekali saat startup, endpoint `/predict` & `/health` |
+| `ml-service/requirements.txt` | fastapi, uvicorn, scikit-learn, numpy, scipy |
+| `ml-service/Dockerfile` | Python 3.13-slim, salin `model/*.pkl`, jalankan uvicorn di `$PORT` |
+
 ---
 
 ## 5. Deliverable yang Sudah Dibuat

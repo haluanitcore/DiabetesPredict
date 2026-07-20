@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class AnalysisController extends Controller
 {
@@ -32,39 +32,26 @@ class AnalysisController extends Controller
             'blood_glucose_level' => 'required|numeric|min:50|max:500',
         ]);
 
-        // Build the arguments array
         // Normalize numeric inputs (replace comma with dot if user entered it)
-        $bmi = str_replace(',', '.', $validated['bmi']);
-        $hba1c = str_replace(',', '.', $validated['hba1c_level']);
-        $age = str_replace(',', '.', $validated['age']);
+        $bmi = (float) str_replace(',', '.', $validated['bmi']);
+        $hba1c = (float) str_replace(',', '.', $validated['hba1c_level']);
+        $age = (float) str_replace(',', '.', $validated['age']);
+        $hypertension = (int) $validated['hypertension'];
+        $glucose = (float) $validated['blood_glucose_level'];
 
-        // Fallback ke 'python3' agar aman di Linux/Docker bila PYTHON_PATH tak diset.
-        $pythonPath = env('PYTHON_PATH', 'python3');
+        // Mode inference dipilih via env: 'http' (microservice FastAPI) atau 'exec' (default, panggil python lokal).
+        $mode = env('ML_MODE', 'exec');
 
-        // Build the command line string
-        $command = sprintf(
-            '"%s" "%s" %s %s %s %s %s 2>&1',
-            $pythonPath,
-            base_path('model/predict.py'),
-            escapeshellarg($age),
-            escapeshellarg($validated['hypertension']),
-            escapeshellarg($bmi),
-            escapeshellarg($hba1c),
-            escapeshellarg($validated['blood_glucose_level'])
-        );
-
-        // Execute using native exec() to avoid Symfony Process pipe issues on Windows
-        $outputLines = [];
-        $returnVar = 0;
-        exec($command, $outputLines, $returnVar);
-
-        $output = implode("\n", $outputLines);
-
-        if ($returnVar !== 0 && empty($outputLines)) {
-             return back()->with('error', 'Analysis failed to run. Return code: ' . $returnVar)->withInput();
+        try {
+            if ($mode === 'http') {
+                $result = $this->predictViaHttp($age, $hypertension, $bmi, $hba1c, $glucose);
+            } else {
+                $result = $this->predictViaExec($age, $hypertension, $bmi, $hba1c, $glucose);
+            }
+        } catch (\Throwable $e) {
+            Log::error('DiaPredict inference failed', ['mode' => $mode, 'error' => $e->getMessage()]);
+            return back()->with('error', 'Analysis Error: ' . $e->getMessage())->withInput();
         }
-
-        $result = json_decode($output, true);
 
         if (!$result || isset($result['error'])) {
             $msg = $result['error'] ?? 'Invalid output from AI model.';
@@ -89,6 +76,66 @@ class AnalysisController extends Controller
         ]);
 
         return redirect()->route('analysis.history')->with('success', 'Analysis completed successfully.');
+    }
+
+    /**
+     * Mode microservice: panggil FastAPI ML service via HTTP.
+     * Model di-load sekali di service -> prediksi cepat & scale mandiri.
+     */
+    private function predictViaHttp(float $age, int $hypertension, float $bmi, float $hba1c, float $glucose): array
+    {
+        $base = rtrim(env('ML_SERVICE_URL', 'http://localhost:8000'), '/');
+
+        $response = Http::timeout((int) env('ML_HTTP_TIMEOUT', 15))
+            ->acceptJson()
+            ->post($base . '/predict', [
+                'age' => $age,
+                'hypertension' => $hypertension,
+                'bmi' => $bmi,
+                'hba1c_level' => $hba1c,
+                'blood_glucose_level' => $glucose,
+            ]);
+
+        if ($response->failed()) {
+            return ['error' => 'ML service HTTP ' . $response->status() . ': ' . $response->body()];
+        }
+
+        return $response->json();
+    }
+
+    /**
+     * Mode default: jalankan model/predict.py lewat proses Python lokal.
+     * Model di-load ulang tiap panggilan (lebih lambat, tapi tanpa service tambahan).
+     */
+    private function predictViaExec(float $age, int $hypertension, float $bmi, float $hba1c, float $glucose): array
+    {
+        // Fallback ke 'python3' agar aman di Linux/Docker bila PYTHON_PATH tak diset.
+        $pythonPath = env('PYTHON_PATH', 'python3');
+
+        $command = sprintf(
+            '"%s" "%s" %s %s %s %s %s 2>&1',
+            $pythonPath,
+            base_path('model/predict.py'),
+            escapeshellarg((string) $age),
+            escapeshellarg((string) $hypertension),
+            escapeshellarg((string) $bmi),
+            escapeshellarg((string) $hba1c),
+            escapeshellarg((string) $glucose)
+        );
+
+        $outputLines = [];
+        $returnVar = 0;
+        exec($command, $outputLines, $returnVar);
+
+        $output = implode("\n", $outputLines);
+
+        if ($returnVar !== 0 && empty($outputLines)) {
+            return ['error' => 'Analysis failed to run. Return code: ' . $returnVar];
+        }
+
+        $result = json_decode($output, true);
+
+        return is_array($result) ? $result : ['error' => 'Invalid output from AI model.'];
     }
 
     public function history()
