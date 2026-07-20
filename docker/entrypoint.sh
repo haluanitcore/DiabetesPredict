@@ -22,10 +22,15 @@ if [ ! -f .env ]; then
     printf 'APP_KEY=\n' > .env
 fi
 
-# --- 3. APP_KEY wajib ada ---
+# --- 3. APP_KEY WAJIB diset (jangan generate diam-diam) ---
+# Generate acak tiap boot = sesi/cookie terenkripsi ter-reset tiap deploy (foot-gun).
+# Lebih baik gagal jelas agar operator menyetel APP_KEY permanen di Railway Variables.
 if [ -z "${APP_KEY}" ]; then
-    echo ">> APP_KEY kosong -> generate sementara. SET APP_KEY di Variables Railway."
-    php artisan key:generate --force 2>&1 || echo ">> WARNING: key:generate gagal"
+    echo ">> FATAL: APP_KEY belum diset di Railway Variables."
+    echo ">>   Buat sekali: 'php artisan key:generate --show' (mis. base64:...),"
+    echo ">>   tempel sebagai variable APP_KEY, lalu redeploy."
+    echo ">>   Boot dihentikan agar sesi tidak ter-reset diam-diam tiap deploy."
+    exit 1
 fi
 
 # --- 4. Cache konfigurasi & view (TIDAK menyentuh DB, cepat) ---
