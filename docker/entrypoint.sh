@@ -51,6 +51,14 @@ if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
     ) &
 fi
 
+# --- 5b. Pastikan TEPAT SATU MPM (perbaiki "More than one MPM loaded") ---
+a2dismod mpm_event mpm_worker >/dev/null 2>&1 || true
+rm -f /etc/apache2/mods-enabled/mpm_event.load  /etc/apache2/mods-enabled/mpm_event.conf \
+      /etc/apache2/mods-enabled/mpm_worker.load /etc/apache2/mods-enabled/mpm_worker.conf
+a2enmod mpm_prefork >/dev/null 2>&1 || true
+echo ">> [mpm] symlink mods-enabled: $(ls /etc/apache2/mods-enabled/ 2>/dev/null | grep -i mpm | tr '\n' ' ')"
+echo ">> [mpm] LoadModule mpm terpasang: $(grep -rhi 'LoadModule[[:space:]]\+mpm' /etc/apache2/ 2>/dev/null | tr '\n' '|')"
+
 # --- 6. Jalankan Apache (foreground, jadi PID 1) SEKARANG ---
 echo ">> Menjalankan Apache di port ${PORT}..."
 exec apache2-foreground
