@@ -1,0 +1,41 @@
+# Dependencies (di-install ulang di dalam image)
+/vendor
+/node_modules
+/public/build
+/public/hot
+
+# Environment & secrets — JANGAN pernah masuk image
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# Notebooks & artefak riset (besar, tidak diperlukan runtime)
+*.ipynb
+/code_html
+extract_theme.js
+parse_html.cjs
+process_html.js
+
+# Git & tooling
+.git
+.gitignore
+.github
+.idea
+.vscode
+.editorconfig
+
+# Storage runtime (dibuat ulang di container)
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+
+# Tests & dev
+/tests
+phpunit.xml
+.phpunit.result.cache
+
+# Docs
+README.md
+DEPLOYMENT.md

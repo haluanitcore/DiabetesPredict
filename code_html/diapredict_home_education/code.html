@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DiaPredict - Diabetes Risk Prediction</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary": "#006e06",
+                      "secondary-fixed": "#94fa81",
+                      "on-error-container": "#93000a",
+                      "on-background": "#191c1e",
+                      "on-tertiary-fixed": "#001c3b",
+                      "on-tertiary": "#ffffff",
+                      "outline": "#727783",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed": "#002200",
+                      "tertiary-fixed": "#d5e3ff",
+                      "on-secondary-container": "#007306",
+                      "on-tertiary-container": "#c6dbff",
+                      "error": "#ba1a1a",
+                      "on-secondary-fixed-variant": "#005303",
+                      "on-primary-fixed": "#001b3d",
+                      "tertiary": "#244877",
+                      "surface-container-low": "#f2f4f6",
+                      "on-primary-container": "#c8daff",
+                      "surface-container-highest": "#e0e3e5",
+                      "primary-fixed": "#d6e3ff",
+                      "primary-fixed-dim": "#a9c7ff",
+                      "on-tertiary-fixed-variant": "#234776",
+                      "surface-container-high": "#e6e8ea",
+                      "surface": "#f7f9fb",
+                      "primary-container": "#005eb8",
+                      "primary": "#00478d",
+                      "surface-bright": "#f7f9fb",
+                      "inverse-surface": "#2d3133",
+                      "surface-tint": "#005db6",
+                      "surface-container": "#eceef0",
+                      "tertiary-fixed-dim": "#a6c8ff",
+                      "on-surface-variant": "#424752",
+                      "error-container": "#ffdad6",
+                      "surface-variant": "#e0e3e5",
+                      "on-error": "#ffffff",
+                      "on-primary-fixed-variant": "#00468c",
+                      "inverse-on-surface": "#eff1f3",
+                      "background": "#f7f9fb",
+                      "tertiary-container": "#3e6091",
+                      "on-primary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-primary": "#a9c7ff",
+                      "surface-dim": "#d8dadc",
+                      "on-surface": "#191c1e",
+                      "secondary-fixed-dim": "#79dd68",
+                      "secondary-container": "#91f77e",
+                      "outline-variant": "#c2c6d4"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "stack-md": "16px",
+                      "unit": "8px",
+                      "container-max": "1200px",
+                      "stack-lg": "32px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "40px",
+                      "stack-sm": "8px"
+              },
+              "fontFamily": {
+                      "label-md": [
+                              "Public Sans"
+                      ],
+                      "label-sm": [
+                              "Public Sans"
+                      ],
+                      "headline-lg": [
+                              "Public Sans"
+                      ],
+                      "body-lg": [
+                              "Public Sans"
+                      ],
+                      "headline-sm": [
+                              "Public Sans"
+                      ],
+                      "headline-md": [
+                              "Public Sans"
+                      ],
+                      "body-md": [
+                              "Public Sans"
+                      ]
+              },
+              "fontSize": {
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar Component -->
+<nav class="bg-surface dark:bg-on-background w-full top-0 border-b border-outline-variant dark:border-outline z-50 sticky">
+<div class="flex justify-between items-center w-full px-gutter max-w-container-max mx-auto h-16">
+<!-- Brand Logo -->
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">monitor_heart</span>
+<span class="text-headline-md font-headline-md text-primary dark:text-primary-fixed tracking-tight">DiaPredict</span>
+</div>
+<!-- Navigation Links -->
+<div class="hidden md:flex items-center gap-stack-md">
+<a class="text-primary dark:text-primary-fixed font-bold border-b-2 border-primary dark:border-primary-fixed pb-1 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200 text-label-md font-label-md" href="#">Home</a>
+<a class="text-on-surface-variant dark:text-surface-variant px-2 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200 text-label-md font-label-md" href="#">Analysis</a>
+<a class="text-on-surface-variant dark:text-surface-variant px-2 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200 text-label-md font-label-md" href="#">History</a>
+</div>
+<!-- Trailing Action -->
+<button class="bg-primary text-on-primary rounded-full px-4 py-2 text-label-md font-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors duration-200">Get Started</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-gutter py-stack-lg flex flex-col gap-12 lg:gap-24">
+<!-- Hero Section (Asymmetric) -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg items-center pt-8 lg:pt-16">
+<div class="flex flex-col gap-stack-md max-w-xl">
+<div class="inline-flex items-center gap-2 bg-primary-fixed/20 text-primary px-3 py-1 rounded-full w-max mb-2">
+<span class="material-symbols-outlined text-sm">verified</span>
+<span class="text-label-sm font-label-sm">Clinical Precision Tools</span>
+</div>
+<h1 class="text-headline-lg font-headline-lg text-on-surface">Predictive Insights for Better Health Outcomes.</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant">
+                    DiaPredict utilizes advanced clinical data models to provide accurate early-warning indicators for diabetes risk. Empower yourself with professional-grade analysis designed for proactive health management.
+                </p>
+<div class="flex items-center gap-4 mt-4">
+<button class="bg-primary text-on-primary rounded-lg px-6 py-3 text-label-md font-label-md hover:opacity-90 transition-opacity">Start Analysis</button>
+<button class="border border-outline text-primary rounded-lg px-6 py-3 text-label-md font-label-md hover:bg-surface-variant transition-colors">Learn How It Works</button>
+</div>
+</div>
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden border border-outline-variant shadow-sm bg-surface-container-lowest">
+<img alt="Medical professional analyzing data" class="object-cover w-full h-full" data-alt="A modern, well-lit clinical environment showcasing a healthcare professional reviewing predictive health data on a sleek digital tablet. The scene is illuminated by soft, bright natural light reflecting off clean white surfaces, establishing a trustworthy and meticulous atmosphere. The color palette emphasizes crisp whites, subtle grays, and accents of medical blue to match a clean, minimalist UI aesthetic. The overall mood is professional, calm, and focused on patient-centered technological advancement." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_JKeT1zlIg4Vd4toe1mK7X0pLI5ap-2LC2LypmOgGIP4wc0dewx4KN8XJfKBR8r4SZZido9S01o4dp87FFGPyzZFsTKI7Ajae1rhDbKwCpq6xM_5dq1WDj9OhKPhSHLqo-dbiQrU7r1_yxu2I28c5mAi4xmYfKhWGHDwl0e-f3XBuN0m8DCKUXullEqK-M5Z89LMR114dHK5iTsIcDPpdCL44ga741-cPfF9pnsHDnKqY3LNCgap7Q_MuvHDcnt5kczYa8JZauId8"/>
+</div>
+</section>
+<!-- Educational Section (Bento Grid) -->
+<section class="flex flex-col gap-stack-lg py-8">
+<div class="flex flex-col gap-2 max-w-2xl">
+<h2 class="text-headline-md font-headline-md text-on-surface">Understanding the Variables</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Early detection relies on recognizing the subtle interplay of various health markers. Educate yourself on the key areas our predictive model analyzes.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col gap-4 md:col-span-2 hover:border-primary transition-colors">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">vital_signs</span>
+</div>
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-2">Clinical Symptoms &amp; Markers</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">
+                            Our analysis evaluates historical markers including elevated fasting glucose, unexpected weight fluctuations, and persistent fatigue. Identifying these early patterns is crucial for establishing an accurate baseline risk profile before full onset.
+                        </p>
+</div>
+<a class="text-secondary font-label-md text-label-md mt-auto inline-flex items-center gap-1 hover:underline" href="#">Read Clinical Guidelines <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col gap-4 hover:border-primary transition-colors">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed/30 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+</div>
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-2">Preventative Measures</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">
+                            Proactive intervention through dietary adjustments and guided physical activity can significantly alter predicted trajectories.
+                        </p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col gap-4 hover:border-primary transition-colors">
+<div class="w-12 h-12 rounded-full bg-primary-fixed/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">search_insights</span>
+</div>
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-2">Importance of Early Detection</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">
+                            Catching pre-diabetic indicators early provides the widest window for successful management and outcome optimization.
+                        </p>
+</div>
+</div>
+<!-- Card 4 (Data driven) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col gap-4 md:col-span-2 hover:border-primary transition-colors">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Data-Driven Accuracy</h3>
+<span class="material-symbols-outlined text-outline">analytics</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant">
+                        By inputting standard biometric data—such as age, BMI, family history, and recent lab results—DiaPredict cross-references millions of clinical data points to generate a personalized risk assessment with high statistical reliability.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="bg-surface-container border border-outline-variant rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-6 my-8">
+<div class="flex flex-col gap-2 max-w-lg">
+<h2 class="text-headline-md font-headline-md text-on-surface">Ready to assess your risk?</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">The process takes less than 5 minutes and provides immediate, medically-informed insights.</p>
+</div>
+<button class="bg-primary text-on-primary rounded-lg px-8 py-4 text-label-md font-label-md whitespace-nowrap hover:bg-primary-container hover:text-on-primary-container transition-colors">Go to Analysis</button>
+</section>
+</main>
+<!-- Footer Component -->
+<footer class="bg-surface-container dark:bg-inverse-surface border-t border-outline-variant dark:border-outline w-full mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-gutter py-stack-lg max-w-container-max mx-auto gap-stack-md">
+<!-- Brand -->
+<div class="text-headline-sm font-headline-sm text-primary dark:text-primary-fixed">
+                DiaPredict
+            </div>
+<!-- Links -->
+<div class="flex flex-wrap justify-center gap-4">
+<a class="text-on-surface-variant dark:text-surface-variant text-label-sm font-label-sm hover:text-secondary dark:hover:text-secondary-fixed transition-colors opacity-100 hover:opacity-70" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant dark:text-surface-variant text-label-sm font-label-sm hover:text-secondary dark:hover:text-secondary-fixed transition-colors opacity-100 hover:opacity-70" href="#">Terms of Service</a>
+<a class="text-on-surface-variant dark:text-surface-variant text-label-sm font-label-sm hover:text-secondary dark:hover:text-secondary-fixed transition-colors opacity-100 hover:opacity-70" href="#">Medical Disclaimer</a>
+<a class="text-on-surface-variant dark:text-surface-variant text-label-sm font-label-sm hover:text-secondary dark:hover:text-secondary-fixed transition-colors opacity-100 hover:opacity-70" href="#">Support</a>
+</div>
+<!-- Copyright -->
+<div class="text-on-surface-variant dark:text-surface-variant text-body-md font-body-md text-center md:text-right">
+                © 2024 DiaPredict Health. Professional clinical guidance.
+            </div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,217 @@
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "on-surface": "#191c1e",
+                  "inverse-primary": "#a9c7ff",
+                  "on-surface-variant": "#424752",
+                  "surface-container-lowest": "#ffffff",
+                  "tertiary-fixed": "#d5e3ff",
+                  "secondary-fixed-dim": "#79dd68",
+                  "on-error": "#ffffff",
+                  "tertiary-container": "#3e6091",
+                  "inverse-surface": "#2d3133",
+                  "primary-container": "#005eb8",
+                  "primary": "#00478d",
+                  "primary-fixed-dim": "#a9c7ff",
+                  "surface": "#f7f9fb",
+                  "on-primary-container": "#c8daff",
+                  "outline": "#727783",
+                  "error": "#ba1a1a",
+                  "surface-container-high": "#e6e8ea",
+                  "tertiary-fixed-dim": "#a6c8ff",
+                  "on-tertiary-fixed-variant": "#234776",
+                  "on-secondary-container": "#007306",
+                  "on-primary-fixed": "#001b3d",
+                  "on-tertiary-fixed": "#001c3b",
+                  "on-tertiary": "#ffffff",
+                  "surface-container-highest": "#e0e3e5",
+                  "on-primary-fixed-variant": "#00468c",
+                  "on-background": "#191c1e",
+                  "surface-container-low": "#f2f4f6",
+                  "secondary": "#006e06",
+                  "primary-fixed": "#d6e3ff",
+                  "secondary-container": "#91f77e",
+                  "on-secondary-fixed": "#002200",
+                  "surface-dim": "#d8dadc",
+                  "surface-tint": "#005db6",
+                  "error-container": "#ffdad6",
+                  "on-tertiary-container": "#c6dbff",
+                  "on-secondary-fixed-variant": "#005303",
+                  "surface-container": "#eceef0",
+                  "surface-bright": "#f7f9fb",
+                  "background": "#f7f9fb",
+                  "on-secondary": "#ffffff",
+                  "on-primary": "#ffffff",
+                  "inverse-on-surface": "#eff1f3",
+                  "tertiary": "#244877",
+                  "surface-variant": "#e0e3e5",
+                  "secondary-fixed": "#94fa81",
+                  "outline-variant": "#c2c6d4",
+                  "on-error-container": "#93000a"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "margin-mobile": "16px",
+                  "gutter": "24px",
+                  "unit": "8px",
+                  "margin-desktop": "40px",
+                  "stack-lg": "32px",
+                  "stack-sm": "8px",
+                  "stack-md": "16px",
+                  "container-max": "1200px"
+          },
+          "fontFamily": {
+                  "label-md": ["Public Sans"],
+                  "headline-lg": ["Public Sans"],
+                  "body-md": ["Public Sans"],
+                  "headline-sm": ["Public Sans"],
+                  "label-sm": ["Public Sans"],
+                  "body-lg": ["Public Sans"],
+                  "headline-md": ["Public Sans"]
+          },
+          "fontSize": {
+                  "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                  "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                  "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                  "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                  "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                  "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                  "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body {
+      background-color: #f7f9fb;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen text-on-surface font-body-md">
+<header class="bg-surface dark:bg-on-background border-b border-outline-variant dark:border-outline sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-gutter max-w-container-max mx-auto h-16">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-headline-md" data-icon="clinical_notes">clinical_notes</span>
+<span class="text-headline-md font-headline-md text-primary dark:text-primary-fixed tracking-tight">DiaPredict</span>
+</div>
+<div class="hidden md:flex items-center gap-stack-md">
+<a class="text-on-surface-variant dark:text-surface-variant px-2 py-1 hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">Home</a>
+<a class="text-on-surface-variant dark:text-surface-variant px-2 py-1 hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">Analysis</a>
+<a class="text-on-surface-variant dark:text-surface-variant px-2 py-1 hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">History</a>
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Get Started</button>
+</div>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center py-stack-lg px-gutter relative overflow-hidden">
+<!-- Background Decorative Elements -->
+<div class="absolute inset-0 z-0 pointer-events-none opacity-20">
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary-fixed rounded-full blur-3xl"></div>
+<div class="absolute -bottom-24 -right-24 w-96 h-96 bg-secondary-fixed rounded-full blur-3xl"></div>
+</div>
+<!-- Registration Card -->
+<div class="z-10 w-full max-w-[480px] bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm p-8 md:p-10">
+<div class="mb-stack-lg text-center">
+<h1 class="text-headline-lg font-headline-lg text-primary mb-2">Create Account</h1>
+<p class="text-body-md font-body-md text-on-surface-variant">Join DiaPredict for precise health insights.</p>
+</div>
+<form class="flex flex-col gap-stack-md">
+<!-- Full Name -->
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface" for="full_name">Full Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]" data-icon="person">person</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline-variant" id="full_name" placeholder="John Doe" type="text"/>
+</div>
+</div>
+<!-- Email -->
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface" for="email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]" data-icon="mail">mail</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline-variant" id="email" placeholder="name@clinical.com" type="email"/>
+</div>
+</div>
+<!-- Password Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<!-- Password -->
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface" for="password">Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]" data-icon="lock">lock</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline-variant" id="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Confirm Password -->
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface" for="confirm_password">Confirm Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]" data-icon="key">key</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline-variant" id="confirm_password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+</div>
+<!-- Terms and Conditions -->
+<div class="flex items-start gap-3 py-2">
+<input class="mt-1 w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" id="terms" type="checkbox"/>
+<label class="text-label-sm font-label-sm text-on-surface-variant" for="terms">
+            I agree to the <a class="text-primary hover:underline" href="#">Terms and Conditions</a> and <a class="text-primary hover:underline" href="#">Privacy Policy</a> of DiaPredict.
+          </label>
+</div>
+<!-- Action Button -->
+<button class="w-full bg-primary text-on-primary py-3 px-6 rounded-lg font-headline-sm text-headline-sm hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-2" type="submit">
+          Create Account
+          <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<!-- Login Link -->
+<div class="text-center mt-stack-md">
+<p class="text-body-md font-body-md text-on-surface-variant">
+            Already have an account? 
+            <a class="text-primary font-bold hover:underline" href="#">Log In</a>
+</p>
+</div>
+</form>
+</div>
+<!-- Right Side Graphic (Web Only) -->
+<div class="hidden lg:flex flex-col ml-gutter max-w-sm gap-stack-md">
+<div class="bg-white/40 backdrop-blur-md p-6 rounded-xl border border-white/60">
+<span class="material-symbols-outlined text-secondary text-[40px] mb-4" data-icon="verified_user" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<h3 class="text-headline-sm font-headline-sm text-primary mb-2">Secure &amp; Private</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Your health data is encrypted using clinical-grade security protocols, ensuring absolute confidentiality.</p>
+</div>
+<img class="rounded-xl shadow-lg border border-outline-variant w-full h-48 object-cover" data-alt="A macro photograph of a high-tech laboratory environment with a soft, clean aesthetic. The scene features a clean white workbench with precision medical instruments and glowing blue digital displays in the background. The lighting is bright and clinical yet inviting, utilizing a palette of hospital whites and deep professional blues. The atmosphere is meticulous and focused on technological advancement." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEXkAOxmaL_Kn-1ScIBaM65lTXznm-VXMb_y0aaeRp-AkwzwZIX4hKHzvD_sdx1WKk0VpRzXvwOzVdG9nUy9FM6w0Ta1ffjrlACmrnGlK4omMDfodU7nWH7VB_QSka9-8w61f8_2PJ6bs0Hz-SrzukpB6J7sgnGlwh1eWSyBJquVX5Rmr9SbOKXpsUORXAA6XvSX61SiD6MDGDqntZKlcr6KC85L3xgiTrbjv7dZOFlnDEPiKs_zajN_y7ftlvy57_m2VPHxFy-WcO"/>
+</div>
+</main>
+<footer class="bg-surface-container dark:bg-inverse-surface border-t border-outline-variant dark:border-outline">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-gutter py-stack-lg max-w-container-max mx-auto gap-stack-md">
+<div class="flex flex-col gap-1 items-center md:items-start">
+<span class="text-headline-sm font-headline-sm text-primary dark:text-primary-fixed">DiaPredict</span>
+<p class="text-label-sm font-label-sm text-on-surface-variant dark:text-surface-variant">© 2024 DiaPredict Health. Professional clinical guidance.</p>
+</div>
+<div class="flex gap-stack-md">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary transition-colors text-label-sm font-label-sm" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary transition-colors text-label-sm font-label-sm" href="#">Terms of Service</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary transition-colors text-label-sm font-label-sm" href="#">Medical Disclaimer</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-secondary transition-colors text-label-sm font-label-sm" href="#">Support</a>
+</div>
+</div>
+</footer>
+</body></html>

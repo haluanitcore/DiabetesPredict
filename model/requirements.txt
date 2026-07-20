@@ -1,0 +1,17 @@
+# Python dependencies for the diabetes prediction model (inference only).
+#
+# ⚠️ PENTING: rf_model.pkl & scaler.pkl di-pickle dengan versi scikit-learn
+# tertentu di komputer training. Jika versi di bawah TIDAK cocok, unpickle bisa
+# gagal / memberi hasil salah. Cara paling aman: jalankan `pip freeze` di mesin
+# yang dipakai melatih model, lalu samakan versi scikit-learn & numpy di sini.
+#
+# Versi di bawah adalah baseline stabil terbaru; sesuaikan bila perlu.
+
+scikit-learn==1.5.2
+numpy==2.1.3
+scipy==1.14.1
+
+# Hanya dibutuhkan saat MELATIH ulang model (train_model.py), bukan saat inference:
+# pandas==2.2.3
+# imbalanced-learn==0.12.4
+# kagglehub==0.3.4
