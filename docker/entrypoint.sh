@@ -20,9 +20,19 @@ php artisan view:cache
 # Symlink storage publik (aman diulang)
 php artisan storage:link || true
 
-# Migrasi database (idempotent). Set RUN_MIGRATIONS=false untuk menonaktifkan.
+# Migrasi database dengan retry (DB mungkin belum siap saat container start).
 if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
-    php artisan migrate --force || echo ">> WARNING: migrate gagal (cek koneksi DB)"
+    n=0
+    until [ "$n" -ge 10 ]; do
+        if php artisan migrate --force; then
+            echo ">> Migrasi berhasil."
+            break
+        fi
+        n=$((n+1))
+        echo ">> DB belum siap, retry migrate ($n/10) dalam 3 dtk..."
+        sleep 3
+    done
+    [ "$n" -ge 10 ] && echo ">> WARNING: migrate gagal setelah 10 percobaan (cek DB_* env)."
 fi
 
 exec apache2-foreground

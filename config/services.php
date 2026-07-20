@@ -35,4 +35,13 @@ return [
         ],
     ],
 
+    // Konfigurasi model ML DiaPredict. Diletakkan di config (bukan env() langsung)
+    // agar tetap terbaca setelah `php artisan config:cache` di produksi.
+    'ml' => [
+        'mode' => env('ML_MODE', 'exec'),                          // 'exec' | 'http'
+        'service_url' => env('ML_SERVICE_URL', 'http://localhost:8000'),
+        'http_timeout' => (int) env('ML_HTTP_TIMEOUT', 15),
+        'python_path' => env('PYTHON_PATH', 'python3'),
+    ],
+
 ];

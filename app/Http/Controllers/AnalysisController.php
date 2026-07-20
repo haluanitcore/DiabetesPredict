@@ -39,8 +39,8 @@ class AnalysisController extends Controller
         $hypertension = (int) $validated['hypertension'];
         $glucose = (float) $validated['blood_glucose_level'];
 
-        // Mode inference dipilih via env: 'http' (microservice FastAPI) atau 'exec' (default, panggil python lokal).
-        $mode = env('ML_MODE', 'exec');
+        // Mode inference: 'http' (microservice FastAPI) atau 'exec' (default, python lokal).
+        $mode = config('services.ml.mode', 'exec');
 
         try {
             if ($mode === 'http') {
@@ -84,9 +84,9 @@ class AnalysisController extends Controller
      */
     private function predictViaHttp(float $age, int $hypertension, float $bmi, float $hba1c, float $glucose): array
     {
-        $base = rtrim(env('ML_SERVICE_URL', 'http://localhost:8000'), '/');
+        $base = rtrim(config('services.ml.service_url', 'http://localhost:8000'), '/');
 
-        $response = Http::timeout((int) env('ML_HTTP_TIMEOUT', 15))
+        $response = Http::timeout(config('services.ml.http_timeout', 15))
             ->acceptJson()
             ->post($base . '/predict', [
                 'age' => $age,
@@ -110,7 +110,7 @@ class AnalysisController extends Controller
     private function predictViaExec(float $age, int $hypertension, float $bmi, float $hba1c, float $glucose): array
     {
         // Fallback ke 'python3' agar aman di Linux/Docker bila PYTHON_PATH tak diset.
-        $pythonPath = env('PYTHON_PATH', 'python3');
+        $pythonPath = config('services.ml.python_path', 'python3');
 
         $command = sprintf(
             '"%s" "%s" %s %s %s %s %s 2>&1',
