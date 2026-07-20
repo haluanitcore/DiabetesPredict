@@ -1,10 +1,10 @@
 # Dependency untuk DiaPredict ML microservice.
-# ⚠️ Samakan versi scikit-learn & numpy dengan mesin training model (lihat model/requirements.txt).
+# ✅ scikit-learn 1.8.0 = versi terverifikasi cocok dengan model (lihat model/requirements.txt).
 
 fastapi==0.115.5
 uvicorn[standard]==0.32.1
 pydantic==2.10.3
 
-scikit-learn==1.5.2
-numpy==2.1.3
-scipy==1.14.1
+scikit-learn==1.8.0
+numpy==2.5.1
+scipy==1.18.0
