@@ -24,7 +24,8 @@ RUN composer install --no-dev --no-scripts --prefer-dist --optimize-autoloader -
 
 
 # ---------- Stage 3: Final runtime image ----------
-FROM php:8.3-apache
+# PHP 8.4: composer.lock mewajibkan PHP >= 8.4.0 (platform_check). PHP 8.3 -> fatal.
+FROM php:8.4-apache
 
 # System packages + Python runtime (untuk model ML) + ekstensi PHP
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -34,6 +35,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j"$(nproc)" pdo_mysql mbstring bcmath gd zip exif \
     && a2enmod rewrite headers \
+    && { a2dismod mpm_event mpm_worker 2>/dev/null || true; } \
+    && a2enmod mpm_prefork \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # --- Python virtual environment untuk inference model ---
@@ -52,9 +55,9 @@ COPY . .
 COPY --from=vendor /app/vendor ./vendor
 COPY --from=assets /app/public/build ./public/build
 
-# Composer scripts (package discovery) sekarang aman dijalankan
-RUN composer install --no-dev --no-scripts --optimize-autoloader --no-interaction \
-    && php artisan package:discover --ansi || true
+# Vendor sudah disalin dari stage 2. Jalankan package discovery pakai artisan
+# (base image tidak punya composer). Non-fatal: runtime bisa auto-discover.
+RUN php artisan package:discover --ansi || true
 
 # Apache docroot -> /public, dan izin storage
 COPY docker/vhost.conf /etc/apache2/sites-available/000-default.conf
