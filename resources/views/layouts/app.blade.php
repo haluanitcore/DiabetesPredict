@@ -61,6 +61,7 @@
             <a class="text-on-surface-variant px-2 py-1 hover:text-primary transition-colors duration-200 text-label-md font-label-md {{ request()->routeIs('home') ? 'text-primary font-bold border-b-2 border-primary pb-1' : '' }}" href="{{ route('home') }}">Home</a>
             <a class="text-on-surface-variant px-2 py-1 hover:text-primary transition-colors duration-200 text-label-md font-label-md {{ request()->routeIs('analysis.form') ? 'text-primary font-bold border-b-2 border-primary pb-1' : '' }}" href="{{ route('analysis.form') }}">Analysis</a>
             <a class="text-on-surface-variant px-2 py-1 hover:text-primary transition-colors duration-200 text-label-md font-label-md {{ request()->routeIs('analysis.comparison') ? 'text-primary font-bold border-b-2 border-primary pb-1' : '' }}" href="{{ route('analysis.comparison') }}">Comparison</a>
+            <a class="text-on-surface-variant px-2 py-1 hover:text-primary transition-colors duration-200 text-label-md font-label-md {{ request()->routeIs('analysis.methodology') ? 'text-primary font-bold border-b-2 border-primary pb-1' : '' }}" href="{{ route('analysis.methodology') }}">Metodologi</a>
             <a class="text-on-surface-variant px-2 py-1 hover:text-primary transition-colors duration-200 text-label-md font-label-md {{ request()->routeIs('analysis.history') ? 'text-primary font-bold border-b-2 border-primary pb-1' : '' }}" href="{{ route('analysis.history') }}">History</a>
         </div>
         <!-- Trailing Action -->

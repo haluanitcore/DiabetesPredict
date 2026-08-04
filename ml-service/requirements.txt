@@ -1,10 +1,11 @@
 # Dependency untuk DiaPredict ML microservice.
-# ✅ scikit-learn 1.8.0 = versi terverifikasi cocok dengan model (lihat model/requirements.txt).
+# scikit-learn HARUS sama dengan versi_library pada model/model_metadata.json
+# (model aktif v3.0-revisi dibuat dengan scikit-learn 1.9.0). Lihat model/requirements.txt.
 
 fastapi==0.115.5
 uvicorn[standard]==0.32.1
 pydantic==2.10.3
 
-scikit-learn==1.8.0
+scikit-learn==1.9.0
 numpy==2.5.1
 scipy==1.18.0

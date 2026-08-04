@@ -1,5 +1,39 @@
 # DiaPredict — Laporan Analisis Arsitektur & Rencana Deployment Produksi
 
+---
+
+## ⚠️ CATATAN PEMBARUAN — Model v3.0-revisi (multi-model)
+
+Bagian-bagian di bawah ini ditulis untuk model lama (`rf_model.pkl` 78 MB). Sejak
+model diganti dengan hasil `Revisi_Pengujian_V3/DiaPredict_Revisi_V3_GABUNGAN.ipynb`,
+angkanya berubah drastis:
+
+| | Sebelum | Sesudah |
+|---|---|---|
+| Artefak model | `rf_model.pkl` 78,88 MB | `rf_model.pkl` **3,56 MB** |
+| Model pembanding | tidak ada | `knn_model.pkl` 8,37 MB + `svm_model.pkl` 0,002 MB |
+| **Total folder `model/`** | 78,88 MB | **11,94 MB (−85%)** |
+| scikit-learn | 1.8.0 | **1.9.0** (wajib cocok dengan `versi_library` di `model_metadata.json`) |
+| Threshold keputusan | 0.4965 | **0.4621** (dibaca dari `model_metadata.json`, bukan hardcode) |
+
+Konsekuensi terhadap catatan di bawah:
+
+- **P1 / P3 / Git LFS** — masalah "model 78 MB" sebagian besar hilang. Ketiga model
+  bersama-sama masih 85% lebih kecil daripada satu berkas RF lama. Git LFS tidak lagi
+  mendesak, meski tetap boleh dipakai.
+- **RAM** — kebutuhan memori saat unpickle turun drastis; anjuran ≥512 MB tetap aman.
+- **Berkas wajib ikut ter-deploy**: `rf_model.pkl`, `knn_model.pkl`, `svm_model.pkl`,
+  `scaler.pkl`, dan **`model_metadata.json`**. Berkas metadata mengunci urutan fitur,
+  ambang tiap model, dan batas winsorization — tanpa itu inferensi memakai nilai bawaan.
+  `ml-service/Dockerfile` menyalin berkas satu per satu, jadi daftarnya harus diperbarui
+  bila ada artefak baru.
+- **Ketiga model berbagi satu `scaler.pkl`** (sudah diverifikasi mean & scale-nya identik).
+- **Tiap model punya ambang sendiri**: RF 0,4621 · KNN 0,3810 · SVM 0,4951.
+  Memakai satu ambang untuk ketiganya menghasilkan perbandingan yang keliru.
+- Artefak model lama tersimpan di `model/_backup_legacy/` bila perlu rollback.
+
+
+
 > Dianalisa sebagai Senior Full Stack / DevOps / Cloud & Software Architect.
 > Target deployment: **Docker → GitHub → Railway**.
 

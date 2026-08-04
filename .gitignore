@@ -29,3 +29,7 @@ Thumbs.db
 # Python cache (dari testing/inference)
 __pycache__/
 *.pyc
+
+# Cadangan artefak model lama (75 MB) - hanya jaring pengaman lokal, jangan di-versioning.
+# Model aktif (rf/knn/svm_model.pkl, ~12 MB) TETAP ikut ter-commit karena dibutuhkan runtime.
+/model/_backup_legacy/

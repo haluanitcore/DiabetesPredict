@@ -1,16 +1,22 @@
 # Python dependencies for the diabetes prediction model (inference only).
 #
-# ✅ TERVERIFIKASI: model rf_model.pkl & scaler.pkl di-pickle dengan scikit-learn
-# 1.8.0 (dibaca langsung dari file model). Versi di bawah = versi PERSIS yang
-# terbukti memuat model tanpa warning versi & menghasilkan prediksi valid.
-# JANGAN turunkan versi scikit-learn — versi lebih rendah (mis. 1.5.2) memicu
-# InconsistentVersionWarning dan hasil prediksi bisa keliru.
+# Versi di bawah HARUS sama dengan `versi_library` pada model/model_metadata.json,
+# yaitu versi yang dipakai ketika rf_model.pkl & scaler.pkl dibuat. Memuat pickle
+# dengan versi scikit-learn berbeda memicu InconsistentVersionWarning dan, pada
+# perbedaan versi yang cukup jauh, dapat mengubah hasil prediksi tanpa error.
+#
+# Model aktif : v3.0-revisi
+# Dihasilkan  : Revisi_Pengujian_V3/DiaPredict_Revisi_V3_GABUNGAN.ipynb (BAGIAN 7)
+# Dibuat pakai: scikit-learn 1.9.0, numpy 2.5.1, Python 3.12
+#
+# Bila model dilatih ulang, perbarui berkas ini agar cocok dengan versi_library
+# pada model_metadata.json yang baru.
 
-scikit-learn==1.8.0
+scikit-learn==1.9.0
 numpy==2.5.1
 scipy==1.18.0
 
 # Hanya dibutuhkan saat MELATIH ulang model (train_model.py), bukan saat inference:
-# pandas==2.2.3
-# imbalanced-learn==0.12.4
-# kagglehub==0.3.4
+# pandas==3.0.3
+# imbalanced-learn==0.14.2
+# kagglehub==1.0.2

@@ -1,0 +1,267 @@
+{
+  "nama_sistem": "DiaPredict",
+  "versi_model": "v3.0-revisi",
+  "tanggal_dibuat": "2026-08-04 23:07:17",
+  "dilatih_oleh": "Notebook 06_Model_Final_dan_Export_Produksi.ipynb",
+  "algoritma": "RandomForestClassifier",
+  "hyperparameter": {
+    "n_estimators": 200,
+    "max_depth": 10,
+    "min_samples_split": 5,
+    "min_samples_leaf": 4,
+    "max_features": "log2",
+    "criterion": "entropy",
+    "class_weight": "balanced"
+  },
+  "feature_order": [
+    "age",
+    "bmi",
+    "hypertension",
+    "HbA1c_level",
+    "blood_glucose_level"
+  ],
+  "feature_labels": [
+    "Usia",
+    "BMI",
+    "Hipertensi",
+    "HbA1c",
+    "Kadar Glukosa"
+  ],
+  "feature_order_catatan": "WAJIB. Array input harus disusun persis mengikuti feature_order. Versi lama predict.py memakai urutan [age, hypertension, bmi, HbA1c_level, blood_glucose_level] sehingga BMI dan hipertensi tertukar pada setiap prediksi. Lihat hasil uji regresi di hasil_uji_urutan_fitur.json.",
+  "urutan_argumen_cli_predict_py": [
+    "age",
+    "hypertension",
+    "bmi",
+    "HbA1c_level",
+    "blood_glucose_level"
+  ],
+  "urutan_argumen_catatan": "Urutan argumen CLI predict.py dipertahankan agar controller Laravel tidak perlu diubah, TETAPI script harus menyusun ulang nilainya mengikuti feature_order sebelum memanggil scaler.transform().",
+  "threshold": {
+    "nilai": 0.46214982219609185,
+    "metode": "Youden's J Statistic (maksimum TPR - FPR pada test set)",
+    "threshold_v2": 0.4965,
+    "catatan": "Threshold dihitung ulang pada model final; ganti nilai 0.4965 di predict.py dengan nilai ini."
+  },
+  "preprocessing": {
+    "urutan": [
+      "hapus duplikat pada dataset penuh",
+      "ambil 5 fitur terpilih",
+      "winsorization (capping IQR 1.5) pada fitur numerik non-biner",
+      "StandardScaler (scaler.pkl)",
+      "SMOTE (HANYA saat training, tidak dipakai saat inferensi)"
+    ],
+    "winsorization": {
+      "age": {
+        "dicapping": true,
+        "batas_bawah": -28.5,
+        "batas_atas": 111.5
+      },
+      "bmi": {
+        "dicapping": true,
+        "batas_bawah": 13.709999999999997,
+        "batas_atas": 39.55
+      },
+      "hypertension": {
+        "dicapping": false,
+        "batas_bawah": 0.0,
+        "batas_atas": 1.0
+      },
+      "HbA1c_level": {
+        "dicapping": true,
+        "batas_bawah": 2.6999999999999993,
+        "batas_atas": 8.3
+      },
+      "blood_glucose_level": {
+        "dicapping": true,
+        "batas_bawah": 11.5,
+        "batas_atas": 247.5
+      }
+    },
+    "scaler": {
+      "tipe": "StandardScaler",
+      "mean": [
+        41.76098185033023,
+        27.026969551198707,
+        0.07800717666025274,
+        5.5224361641271,
+        137.4320427479328
+      ],
+      "scale": [
+        22.467615610535336,
+        5.923270708183624,
+        0.2681828798595258,
+        1.048914284009172,
+        38.66457354048399
+      ],
+      "catatan": "Scaler ter-fit pada data latih ASLI karena berada sebelum SMOTE di dalam pipeline, sehingga statistiknya mewakili distribusi pasien nyata."
+    }
+  },
+  "split": {
+    "rasio_uji": 0.2,
+    "rasio_latih": 0.8,
+    "n_latih": 76916,
+    "n_uji": 19230,
+    "stratified": true,
+    "random_state": 42,
+    "sumber_justifikasi": "Nilai cadangan (baseline V2)"
+  },
+  "metrik_test_set": {
+    "threshold_youden": {
+      "accuracy": 0.883619344773791,
+      "precision": 0.42599672310213,
+      "recall": 0.9198113207547169,
+      "f1": 0.5823068309070548,
+      "roc_auc": 0.9731689752093506,
+      "ap_score": 0.8685545936500368,
+      "brier": 0.06047334385741385
+    },
+    "threshold_default_0_5": {
+      "accuracy": 0.8952158086323453,
+      "precision": 0.4525721082366934,
+      "recall": 0.8974056603773585,
+      "f1": 0.6016999406997431,
+      "roc_auc": 0.9731689752093506,
+      "ap_score": 0.8685545936500368,
+      "brier": 0.06047334385741385
+    },
+    "confusion_matrix": {
+      "tn": 15432,
+      "fp": 2102,
+      "fn": 136,
+      "tp": 1560
+    },
+    "spesifisitas": 0.8801186266681875,
+    "recall_ci95": [
+      0.9068857701342131,
+      0.9327368713752208
+    ],
+    "n_uji": 19230
+  },
+  "dataset": {
+    "sumber": "Kaggle - iammustafatz/diabetes-prediction-dataset",
+    "baris_dipakai": 96146,
+    "n_sehat": 87664,
+    "n_diabetes": 8482,
+    "persen_positif": 8.821999875189816
+  },
+  "ukuran_file_mb": {
+    "rf_model.pkl": 3.5631,
+    "scaler.pkl": 0.000511,
+    "catatan": "Model lama sekitar 75.2 MB karena RandomForest default tanpa max_depth."
+  },
+  "versi_library": {
+    "python": "3.12.10",
+    "scikit_learn": "1.9.0",
+    "imbalanced_learn": "0.14.2",
+    "numpy": "2.5.1",
+    "pandas": "3.0.3"
+  },
+  "catatan_kompatibilitas": "Pickle disimpan dengan protocol=4. Muat dengan pickle.load(). Untuk menghindari InconsistentVersionWarning, gunakan versi scikit-learn yang sama di server (lihat versi_library di atas) atau latih ulang lewat notebook ini.",
+  "models": [
+    {
+      "id": "rf",
+      "nama": "Random Forest",
+      "berkas": "rf_model.pkl",
+      "produksi": true,
+      "threshold": 0.46214982219609185,
+      "threshold_metode": "Youden's J Statistic (maksimum TPR - FPR pada test set)",
+      "hyperparameter": {
+        "n_estimators": 200,
+        "max_depth": 10,
+        "min_samples_split": 5,
+        "min_samples_leaf": 4,
+        "max_features": "log2",
+        "criterion": "entropy",
+        "class_weight": "balanced"
+      },
+      "metrik_test": {
+        "accuracy": 0.8836,
+        "precision": 0.426,
+        "recall": 0.9198,
+        "f1": 0.5823,
+        "roc_auc": 0.9732,
+        "ap_score": 0.8686,
+        "brier": 0.0605
+      },
+      "confusion_matrix": {
+        "tn": 15432,
+        "fp": 2102,
+        "fn": 136,
+        "tp": 1560
+      },
+      "ukuran_mb": 3.5631
+    },
+    {
+      "id": "knn",
+      "nama": "KNN (k=21)",
+      "berkas": "knn_model.pkl",
+      "produksi": false,
+      "threshold": 0.380952,
+      "threshold_metode": "Youden's J Statistic",
+      "hyperparameter": {
+        "n_neighbors": 21,
+        "weights": "uniform",
+        "metric": "euclidean",
+        "leaf_size": 20
+      },
+      "metrik_test": {
+        "accuracy": 0.8559,
+        "precision": 0.371,
+        "recall": 0.9121,
+        "f1": 0.5274,
+        "roc_auc": 0.9524,
+        "brier": 0.0728
+      },
+      "confusion_matrix": {
+        "tn": 14911,
+        "fp": 2623,
+        "fn": 149,
+        "tp": 1547
+      },
+      "ukuran_mb": 8.3667,
+      "waktu_latih_s": 0.5,
+      "waktu_infer_ms_total_test": 766.1,
+      "latensi_1_sampel_ms": 24.365,
+      "kuantisasi": {
+        "k": 21,
+        "langkah": 0.047619,
+        "nilai_unik_teramati": 22,
+        "catatan": "Probabilitas KNN adalah proporsi tetangga positif, sehingga hanya bisa bernilai kelipatan 1/21. Tampilkan juga bentuk 'x dari k tetangga' agar tidak terlihat seperti presisi palsu."
+      }
+    },
+    {
+      "id": "svm",
+      "nama": "SVM (Linear)",
+      "berkas": "svm_model.pkl",
+      "produksi": false,
+      "threshold": 0.495105,
+      "threshold_metode": "Youden's J Statistic",
+      "hyperparameter": {
+        "C": 0.1,
+        "max_iter": 3000,
+        "kernel": "linear",
+        "kalibrasi": "sigmoid",
+        "cv_kalibrasi": 3
+      },
+      "metrik_test": {
+        "accuracy": 0.8775,
+        "precision": 0.4097,
+        "recall": 0.8833,
+        "f1": 0.5598,
+        "roc_auc": 0.9581,
+        "brier": 0.0836
+      },
+      "confusion_matrix": {
+        "tn": 15376,
+        "fp": 2158,
+        "fn": 198,
+        "tp": 1498
+      },
+      "ukuran_mb": 0.0017,
+      "waktu_latih_s": 0.7,
+      "waktu_infer_ms_total_test": 9.1,
+      "latensi_1_sampel_ms": 2.518
+    }
+  ],
+  "models_catatan": "Ketiga model dilatih pada split, winsorization, scaler, dan SMOTE yang sama (BAGIAN 7 + pabrik pipeline CELL 5 notebook gabungan), sehingga probabilitasnya sebanding. Semua memakai scaler.pkl yang sama - sudah diverifikasi mean & scale-nya identik. PENTING: tiap model punya ambang keputusan sendiri; memakai satu ambang untuk ketiganya keliru."
+}
