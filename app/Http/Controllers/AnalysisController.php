@@ -184,15 +184,6 @@ class AnalysisController extends Controller
         return view('analysis.comparison', ['exp' => $this->experiments()]);
     }
 
-    /**
-     * Halaman metodologi: menjawab poin revisi penguji (justifikasi k pada KNN,
-     * pemilihan hyperplane SVM, rasio split 80:20, dan pengujian tambahan).
-     */
-    public function methodology()
-    {
-        return view('analysis.methodology', ['exp' => $this->experiments()]);
-    }
-
     public function showForm()
     {
         return view('analysis.form');

@@ -39,12 +39,6 @@
         <p class="text-body-lg font-body-lg text-on-surface-variant">
             Halaman ini menyajikan hasil studi komparatif dan analisis mendalam terhadap tiga algoritma pembelajaran mesin (Machine Learning) yang diuji menggunakan dataset prediksi diabetes tipe 2. Evaluasi didasarkan pada file riset ilmiah <code class="bg-surface-container-high px-2 py-0.5 rounded text-primary text-sm font-semibold">{{ $meta['sumber_baseline'] ?? 'Diabetes_Prediction_RF_KNN_SVM_V2 (1).ipynb' }}</code>.
         </p>
-        <a href="{{ route('analysis.methodology') }}"
-           class="inline-flex items-center gap-2 w-max text-label-md font-label-md text-primary hover:underline">
-            <span class="material-symbols-outlined text-[18px]">fact_check</span>
-            Lihat justifikasi metodologi: pemilihan k, hyperplane SVM, rasio split, dan pengujian tambahan
-            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-        </a>
     </section>
 
     <!-- Comparison Table Section -->
@@ -220,8 +214,8 @@
                             @endif
                             <li>
                                 <strong>Keputusan berbasis kriteria eksplisit:</strong> pemilihan ini tidak didasarkan pada satu metrik saja,
-                                melainkan pada skor komposit berbobot yang diuji sensitivitasnya &mdash; rinciannya ada di
-                                <a href="{{ route('analysis.methodology') }}#keputusan" class="text-primary font-semibold hover:underline">halaman Metodologi</a>.
+                                melainkan pada skor komposit berbobot atas recall, ROC-AUC, precision, F1, kecepatan inferensi,
+                                dan ukuran model, yang juga diuji sensitivitasnya terhadap perubahan bobot.
                             </li>
                         </ul>
                     @endif
@@ -244,8 +238,7 @@
                     Dengan p-value yang jauh lebih kecil dari tingkat signifikansi standar (&alpha; = 0,05), perbedaan performa antar model
                     dapat disimpulkan bukan kebetulan. Perlu dicatat bahwa uji ini menyatakan <em>adanya</em> perbedaan, bukan arah keunggulannya;
                     arah dan besar keunggulan dibaca dari tabel metrik di atas. Uji tambahan &mdash; 5&times;2cv paired t-test, Wilcoxon signed-rank,
-                    dan DeLong test untuk ROC-AUC &mdash; tersedia di
-                    <a href="{{ route('analysis.methodology') }}#pengujian" class="text-primary font-semibold hover:underline">halaman Metodologi</a>.
+                    dan DeLong test untuk ROC-AUC &mdash; turut dijalankan pada tahap validasi statistik penelitian ini.
                 </p>
             </div>
         </div>

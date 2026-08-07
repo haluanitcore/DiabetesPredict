@@ -465,9 +465,6 @@
                     Pemilihan model produksi tidak ditentukan oleh satu metrik saja, melainkan oleh
                     <strong class="text-on-surface">skor komposit berbobot</strong> yang menimbang recall, ROC-AUC, precision, F1,
                     serta biaya komputasi sekaligus, lengkap dengan analisis sensitivitas bobotnya.
-                    <a href="{{ route('analysis.methodology') }}#keputusan" class="text-primary font-semibold hover:underline">
-                        Lihat rincian keputusan di halaman Metodologi
-                    </a>.
                 </p>
             @endif
         </section>

@@ -9,7 +9,6 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/comparison', [AnalysisController::class, 'comparison'])->name('analysis.comparison');
-Route::get('/metodologi', [AnalysisController::class, 'methodology'])->name('analysis.methodology');
 
 // Auth Routes
 Route::middleware('guest')->group(function () {
