@@ -75,7 +75,7 @@
       "recall": 0.9198,
       "f1": 0.5823,
       "roc_auc": 0.9732,
-      "ap_score": 0.8695,
+      "ap_score": 0.8686,
       "accuracy_default": 0.8943,
       "precision_default": 0.4505,
       "recall_default": 0.9021,
@@ -90,13 +90,13 @@
     },
     {
       "model": "KNN",
-      "threshold": 0.381,
-      "accuracy": 0.8559,
-      "precision": 0.371,
-      "recall": 0.9121,
-      "f1": 0.5274,
-      "roc_auc": 0.9524,
-      "ap_score": 0.7976,
+      "threshold": 0.4118,
+      "accuracy": 0.8596,
+      "precision": 0.3785,
+      "recall": 0.9222,
+      "f1": 0.5367,
+      "roc_auc": 0.9631,
+      "ap_score": 0.8359,
       "accuracy_default": 0.8877,
       "precision_default": 0.4318,
       "recall_default": 0.8644,
@@ -106,18 +106,18 @@
       "overfit_gap": 0.0853,
       "waktu_latih_s": 539.1,
       "waktu_infer_ms": 1550.0,
-      "sumber_metrik": "Model produksi v3.0-revisi, diukur pada 19.230 data uji",
+      "sumber_metrik": "Dilatih ulang pada data penuh lewat Perbaikan_KNN_SVM_V3.ipynb (KNN k=51, SVM C=0.001) agar sesuai justifikasi notebook V3; diukur pada 19.230 data uji.",
       "sumber_waktu": "Benchmark notebook V2 (waktu komputasi tidak diukur ulang)"
     },
     {
       "model": "SVM (Linear)",
-      "threshold": 0.4951,
-      "accuracy": 0.8775,
-      "precision": 0.4097,
-      "recall": 0.8833,
-      "f1": 0.5598,
+      "threshold": 0.4981,
+      "accuracy": 0.879,
+      "precision": 0.4129,
+      "recall": 0.8821,
+      "f1": 0.5625,
       "roc_auc": 0.9581,
-      "ap_score": 0.8063,
+      "ap_score": 0.8058,
       "accuracy_default": 0.879,
       "precision_default": 0.4127,
       "recall_default": 0.8797,
@@ -127,11 +127,11 @@
       "overfit_gap": -0.0003,
       "waktu_latih_s": 32.1,
       "waktu_infer_ms": 7.0,
-      "sumber_metrik": "Model produksi v3.0-revisi, diukur pada 19.230 data uji",
+      "sumber_metrik": "Dilatih ulang pada data penuh lewat Perbaikan_KNN_SVM_V3.ipynb (KNN k=51, SVM C=0.001) agar sesuai justifikasi notebook V3; diukur pada 19.230 data uji.",
       "sumber_waktu": "Benchmark notebook V2 (waktu komputasi tidak diukur ulang)"
     }
   ],
-  "sumber_perbandingan_model": "Metrik dari model produksi v3.0-revisi yang benar-benar berjalan di sistem (diukur pada 19.230 data uji). Kolom waktu latih/inferensi tetap dari benchmark V2 karena tidak diukur ulang.",
+  "sumber_perbandingan_model": "Metrik model produksi v3.0-revisi yang benar-benar berjalan di sistem, diukur pada 19.230 data uji. KNN (k=51) dan SVM (C=0.001) dilatih ulang lewat Perbaikan_KNN_SVM_V3.ipynb agar sesuai justifikasi notebook 02 dan 03; Random Forest tidak dilatih ulang, hanya dievaluasi pada split yang sama. Kolom waktu latih/inferensi tetap dari benchmark V2 karena tidak diukur ulang.",
   "justifikasi_split": {
     "rasio_terpilih": 0.2,
     "rasio_label": "80:20",
@@ -8152,45 +8152,44 @@
     "matriks_keputusan": [
       {
         "model": "Random Forest",
-        "sumber_angka": "V2 (data penuh) + ukuran terukur",
-        "recall": 0.9057,
-        "roc_auc": 0.9733,
-        "precision": 0.4481,
-        "f1": 0.5995,
+        "recall": 0.919811,
+        "roc_auc": 0.973169,
+        "precision": 0.425997,
+        "f1": 0.582307,
         "kecepatan": 0.018,
-        "ukuran": 2.925589,
-        "norm_recall": 0.7777777777777757,
-        "kontrib_recall": 0.2722222222222215,
+        "ukuran": 3.736462,
+        "norm_recall": 0.941176,
+        "kontrib_recall": 0.329412,
         "norm_roc_auc": 1.0,
         "kontrib_roc_auc": 0.25,
         "norm_precision": 1.0,
         "kontrib_precision": 0.15,
         "norm_f1": 1.0,
         "kontrib_f1": 0.1,
-        "norm_kecepatan": 0.782608695652174,
-        "kontrib_kecepatan": 0.0782608695652174,
-        "norm_ukuran": 0.035131590031167614,
-        "kontrib_ukuran": 0.0017565795015583808,
-        "skor_komposit": 0.8522396712889972,
+        "norm_kecepatan": 0.782609,
+        "kontrib_kecepatan": 0.078261,
+        "norm_ukuran": 0.574218,
+        "kontrib_ukuran": 0.028711,
+        "skor_komposit": 0.936384,
         "peringkat": 1,
+        "interpretabilitas": "Tinggi (feature importance + TreeSHAP)",
+        "catatan": "Recall hampir setara KNN tetapi precision, ROC-AUC, dan kecepatan inferensi jauh lebih baik; skor komposit tertinggi sehingga dipilih sebagai model produksi.",
         "waktu_infer_ms": 93.35470199584961,
         "ms_per_sampel": 0.018,
-        "interpretabilitas": "Tinggi (feature importance + TreeSHAP)",
-        "catatan": "Recall hampir setara KNN tetapi precision, ROC-AUC, dan kecepatan inferensi jauh lebih baik; skor komposit tertinggi sehingga dipilih sebagai model produksi."
+        "sumber_angka": "rf_model.pkl produksi, dievaluasi ulang pada test set 20% (tidak dilatih ulang); ukuran diukur dari pickle classifier."
       },
       {
         "model": "KNN",
-        "sumber_angka": "V2 (data penuh) + ukuran terukur",
-        "recall": 0.9121,
-        "roc_auc": 0.9524,
-        "precision": 0.371,
-        "f1": 0.5274,
+        "recall": 0.92217,
+        "roc_auc": 0.963145,
+        "precision": 0.378509,
+        "f1": 0.536719,
         "kecepatan": 0.081,
-        "ukuran": 3.027768,
+        "ukuran": 8.773164,
         "norm_recall": 1.0,
         "kontrib_recall": 0.35,
-        "norm_roc_auc": 0.0,
-        "kontrib_roc_auc": 0.0,
+        "norm_roc_auc": 0.335411,
+        "kontrib_roc_auc": 0.083853,
         "norm_precision": 0.0,
         "kontrib_precision": 0.0,
         "norm_f1": 0.0,
@@ -8199,40 +8198,41 @@
         "kontrib_kecepatan": 0.0,
         "norm_ukuran": 0.0,
         "kontrib_ukuran": 0.0,
-        "skor_komposit": 0.35,
+        "skor_komposit": 0.433853,
         "peringkat": 2,
+        "interpretabilitas": "Rendah (lazy learner)",
+        "catatan": "Recall tertinggi, tetapi precision terendah, ROC-AUC terendah, dan inferensi paling lambat sehingga tidak layak dipakai di produksi.",
         "waktu_infer_ms": 180.18770217895508,
         "ms_per_sampel": 0.081,
-        "interpretabilitas": "Rendah (lazy learner)",
-        "catatan": "Recall tertinggi, tetapi precision terendah, ROC-AUC terendah, dan inferensi paling lambat sehingga tidak layak dipakai di produksi."
+        "sumber_angka": "Dilatih ulang k=51 pada data penuh lewat Perbaikan_KNN_SVM_V3.ipynb; ukuran diukur dari pickle classifier."
       },
       {
         "model": "SVM (Linear)",
-        "sumber_angka": "V2 (data penuh) + ukuran terukur",
-        "recall": 0.8833,
-        "roc_auc": 0.9581,
-        "precision": 0.4097,
-        "f1": 0.5598,
+        "recall": 0.882075,
+        "roc_auc": 0.958086,
+        "precision": 0.412917,
+        "f1": 0.562512,
         "kecepatan": 0.0005,
-        "ukuran": 0.119303,
+        "ukuran": 0.001749,
         "norm_recall": 0.0,
         "kontrib_recall": 0.0,
-        "norm_roc_auc": 0.2727272727272689,
-        "kontrib_roc_auc": 0.06818181818181722,
-        "norm_precision": 0.5019455252918289,
-        "kontrib_precision": 0.07529182879377433,
-        "norm_f1": 0.4493758668515945,
-        "kontrib_f1": 0.04493758668515945,
+        "norm_roc_auc": 0.0,
+        "kontrib_roc_auc": 0.0,
+        "norm_precision": 0.724575,
+        "kontrib_precision": 0.108686,
+        "norm_f1": 0.565779,
+        "kontrib_f1": 0.056578,
         "norm_kecepatan": 1.0,
         "kontrib_kecepatan": 0.1,
         "norm_ukuran": 1.0,
         "kontrib_ukuran": 0.05,
-        "skor_komposit": 0.33841123366075104,
+        "skor_komposit": 0.315264,
         "peringkat": 3,
+        "interpretabilitas": "Sedang (bobot w linier)",
+        "catatan": "Paling ringan dan paling cepat, tetapi recall paling rendah sehingga kurang sesuai untuk keperluan skrining.",
         "waktu_infer_ms": 6.413459777832031,
         "ms_per_sampel": 0.0005,
-        "interpretabilitas": "Sedang (bobot w linier)",
-        "catatan": "Paling ringan dan paling cepat, tetapi recall paling rendah sehingga kurang sesuai untuk keperluan skrining."
+        "sumber_angka": "Dilatih ulang C=0.001 pada data penuh lewat Perbaikan_KNN_SVM_V3.ipynb; ukuran diukur dari pickle classifier."
       }
     ],
     "bobot_kriteria": {
@@ -8246,420 +8246,414 @@
     "sensitivitas_bobot": [
       {
         "bobot_recall": 0.2,
-        "skor_Random Forest": 0.8694231851762023,
-        "skor_SVM (Linear)": 0.41650613373630896,
-        "skor_KNN": 0.2,
+        "skor_Random Forest": 0.9352774553572072,
+        "skor_KNN": 0.30320345393802045,
+        "skor_SVM (Linear)": 0.38801738719393913,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.45291705143989336
+        "selisih_juara_1_2": 0.547260068163268
       },
       {
         "bobot_recall": 0.21,
-        "skor_Random Forest": 0.868277617583722,
-        "skor_SVM (Linear)": 0.4112998070646051,
-        "skor_KNN": 0.21,
+        "skor_Random Forest": 0.9353511930475951,
+        "skor_KNN": 0.3119134107637952,
+        "skor_SVM (Linear)": 0.3831671698540149,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.4569778105191169
+        "selisih_juara_1_2": 0.5521840231935802
       },
       {
         "bobot_recall": 0.22,
-        "skor_Random Forest": 0.8671320499912416,
-        "skor_SVM (Linear)": 0.4060934803929012,
-        "skor_KNN": 0.22,
+        "skor_Random Forest": 0.9354249307379828,
+        "skor_KNN": 0.32062336758956994,
+        "skor_SVM (Linear)": 0.3783169525140906,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.4610385695983404
+        "selisih_juara_1_2": 0.5571079782238922
       },
       {
         "bobot_recall": 0.23,
-        "skor_Random Forest": 0.8659864823987613,
-        "skor_SVM (Linear)": 0.4008871537211974,
-        "skor_KNN": 0.23,
+        "skor_Random Forest": 0.9354986684283707,
+        "skor_KNN": 0.3293333244153447,
+        "skor_SVM (Linear)": 0.3734667351741664,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.46509932867756393
+        "selisih_juara_1_2": 0.5620319332542043
       },
       {
         "bobot_recall": 0.24,
-        "skor_Random Forest": 0.8648409148062809,
-        "skor_SVM (Linear)": 0.3956808270494935,
-        "skor_KNN": 0.24,
+        "skor_Random Forest": 0.9355724061187586,
+        "skor_KNN": 0.33804328124111943,
+        "skor_SVM (Linear)": 0.3686165178342422,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.4691600877567874
+        "selisih_juara_1_2": 0.5669558882845164
       },
       {
         "bobot_recall": 0.25,
-        "skor_Random Forest": 0.8636953472138006,
-        "skor_SVM (Linear)": 0.39047450037778964,
-        "skor_KNN": 0.25,
+        "skor_Random Forest": 0.9356461438091462,
+        "skor_KNN": 0.3467532380668942,
+        "skor_SVM (Linear)": 0.3637663004943179,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.47322084683601096
+        "selisih_juara_1_2": 0.5718798433148283
       },
       {
         "bobot_recall": 0.26,
-        "skor_Random Forest": 0.8625497796213203,
-        "skor_SVM (Linear)": 0.38526817370608574,
-        "skor_KNN": 0.26,
+        "skor_Random Forest": 0.9357198814995341,
+        "skor_KNN": 0.3554631948926689,
+        "skor_SVM (Linear)": 0.35891608315439366,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.47728160591523455
+        "selisih_juara_1_2": 0.5768037983451404
       },
       {
         "bobot_recall": 0.27,
-        "skor_Random Forest": 0.86140421202884,
-        "skor_SVM (Linear)": 0.3800618470343819,
-        "skor_KNN": 0.27,
+        "skor_Random Forest": 0.9357936191899221,
+        "skor_KNN": 0.36417315171844367,
+        "skor_SVM (Linear)": 0.35406586581446947,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.4813423649944581
+        "selisih_juara_1_2": 0.5716204674714784
       },
       {
         "bobot_recall": 0.28,
-        "skor_Random Forest": 0.8602586444363595,
-        "skor_SVM (Linear)": 0.374855520362678,
-        "skor_KNN": 0.28,
+        "skor_Random Forest": 0.9358673568803099,
+        "skor_KNN": 0.3728831085442184,
+        "skor_SVM (Linear)": 0.34921564847454517,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.48540312407368147
+        "selisih_juara_1_2": 0.5629842483360914
       },
       {
         "bobot_recall": 0.29,
-        "skor_Random Forest": 0.8591130768438792,
-        "skor_SVM (Linear)": 0.36964919369097415,
-        "skor_KNN": 0.29,
+        "skor_Random Forest": 0.9359410945706977,
+        "skor_KNN": 0.38159306536999316,
+        "skor_SVM (Linear)": 0.3443654311346209,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.489463883152905
+        "selisih_juara_1_2": 0.5543480292007046
       },
       {
         "bobot_recall": 0.3,
-        "skor_Random Forest": 0.8579675092513988,
-        "skor_SVM (Linear)": 0.3644428670192703,
-        "skor_KNN": 0.3,
+        "skor_Random Forest": 0.9360148322610856,
+        "skor_KNN": 0.39030302219576796,
+        "skor_SVM (Linear)": 0.33951521379469674,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.49352464223212844
+        "selisih_juara_1_2": 0.5457118100653177
       },
       {
         "bobot_recall": 0.31,
-        "skor_Random Forest": 0.8568219416589185,
-        "skor_SVM (Linear)": 0.3592365403475664,
-        "skor_KNN": 0.31,
+        "skor_Random Forest": 0.9360885699514733,
+        "skor_KNN": 0.3990129790215426,
+        "skor_SVM (Linear)": 0.33466499645477243,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.49758540131135204
+        "selisih_juara_1_2": 0.5370755909299307
       },
       {
         "bobot_recall": 0.32,
-        "skor_Random Forest": 0.8556763740664382,
-        "skor_SVM (Linear)": 0.3540302136758625,
-        "skor_KNN": 0.32,
+        "skor_Random Forest": 0.9361623076418611,
+        "skor_KNN": 0.40772293584731734,
+        "skor_SVM (Linear)": 0.3298147791148482,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.5016461603905756
+        "selisih_juara_1_2": 0.5284393717945438
       },
       {
         "bobot_recall": 0.33,
-        "skor_Random Forest": 0.8545308064739578,
-        "skor_SVM (Linear)": 0.3488238870041587,
-        "skor_KNN": 0.33,
+        "skor_Random Forest": 0.936236045332249,
+        "skor_KNN": 0.41643289267309214,
+        "skor_SVM (Linear)": 0.32496456177492394,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.5057069194697992
+        "selisih_juara_1_2": 0.5198031526591569
       },
       {
         "bobot_recall": 0.34,
-        "skor_Random Forest": 0.8533852388814775,
-        "skor_SVM (Linear)": 0.34361756033245483,
-        "skor_KNN": 0.34,
+        "skor_Random Forest": 0.9363097830226369,
+        "skor_KNN": 0.4251428494988669,
+        "skor_SVM (Linear)": 0.32011434443499975,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.5097676785490227
+        "selisih_juara_1_2": 0.5111669335237701
       },
       {
         "bobot_recall": 0.35,
-        "skor_Random Forest": 0.8522396712889972,
-        "skor_SVM (Linear)": 0.33841123366075104,
-        "skor_KNN": 0.35,
+        "skor_Random Forest": 0.9363835207130248,
+        "skor_KNN": 0.43385280632464157,
+        "skor_SVM (Linear)": 0.31526412709507556,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.5022396712889973
+        "selisih_juara_1_2": 0.5025307143883833
       },
       {
         "bobot_recall": 0.36,
-        "skor_Random Forest": 0.851094103696517,
-        "skor_SVM (Linear)": 0.33320490698904714,
-        "skor_KNN": 0.36,
+        "skor_Random Forest": 0.9364572584034127,
+        "skor_KNN": 0.4425627631504163,
+        "skor_SVM (Linear)": 0.31041390975515126,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.49109410369651696
+        "selisih_juara_1_2": 0.49389449525299634
       },
       {
         "bobot_recall": 0.37,
-        "skor_Random Forest": 0.8499485361040366,
-        "skor_SVM (Linear)": 0.3279985803173433,
-        "skor_KNN": 0.37,
+        "skor_Random Forest": 0.9365309960938005,
+        "skor_KNN": 0.4512727199761911,
+        "skor_SVM (Linear)": 0.3055636924152271,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.47994853610403665
+        "selisih_juara_1_2": 0.4852582761176094
       },
       {
         "bobot_recall": 0.38,
-        "skor_Random Forest": 0.8488029685115562,
-        "skor_SVM (Linear)": 0.3227922536456394,
-        "skor_KNN": 0.38,
+        "skor_Random Forest": 0.9366047337841883,
+        "skor_KNN": 0.4599826768019658,
+        "skor_SVM (Linear)": 0.3007134750753028,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.46880296851155623
+        "selisih_juara_1_2": 0.4766220569822225
       },
       {
         "bobot_recall": 0.39,
-        "skor_Random Forest": 0.8476574009190759,
-        "skor_SVM (Linear)": 0.3175859269739355,
-        "skor_KNN": 0.39,
+        "skor_Random Forest": 0.9366784714745762,
+        "skor_KNN": 0.4686926336277406,
+        "skor_SVM (Linear)": 0.2958632577353786,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.4576574009190759
+        "selisih_juara_1_2": 0.46798583784683556
       },
       {
         "bobot_recall": 0.4,
-        "skor_Random Forest": 0.8465118333265956,
-        "skor_SVM (Linear)": 0.3123796003022317,
-        "skor_KNN": 0.4,
+        "skor_Random Forest": 0.936752209164964,
+        "skor_KNN": 0.47740259045351535,
+        "skor_SVM (Linear)": 0.29101304039545434,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.4465118333265956
+        "selisih_juara_1_2": 0.4593496187114487
       },
       {
         "bobot_recall": 0.41,
-        "skor_Random Forest": 0.8453662657341153,
-        "skor_SVM (Linear)": 0.3071732736305279,
-        "skor_KNN": 0.41,
+        "skor_Random Forest": 0.9368259468553518,
+        "skor_KNN": 0.4861125472792901,
+        "skor_SVM (Linear)": 0.2861628230555301,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.43536626573411535
+        "selisih_juara_1_2": 0.4507133995760617
       },
       {
         "bobot_recall": 0.42,
-        "skor_Random Forest": 0.8442206981416349,
-        "skor_SVM (Linear)": 0.301966946958824,
-        "skor_KNN": 0.42,
+        "skor_Random Forest": 0.9368996845457397,
+        "skor_KNN": 0.49482250410506484,
+        "skor_SVM (Linear)": 0.28131260571560585,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.42422069814163493
+        "selisih_juara_1_2": 0.44207718044067484
       },
       {
         "bobot_recall": 0.43,
-        "skor_Random Forest": 0.8430751305491547,
-        "skor_SVM (Linear)": 0.29676062028712014,
-        "skor_KNN": 0.43,
+        "skor_Random Forest": 0.9369734222361275,
+        "skor_KNN": 0.5035324609308396,
+        "skor_SVM (Linear)": 0.2764623883756816,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.41307513054915473
+        "selisih_juara_1_2": 0.43344096130528786
       },
       {
         "bobot_recall": 0.44,
-        "skor_Random Forest": 0.8419295629566743,
-        "skor_SVM (Linear)": 0.2915542936154163,
-        "skor_KNN": 0.44,
+        "skor_Random Forest": 0.9370471599265154,
+        "skor_KNN": 0.5122424177566143,
+        "skor_SVM (Linear)": 0.2716121710357574,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.4019295629566743
+        "selisih_juara_1_2": 0.42480474216990116
       },
       {
         "bobot_recall": 0.45,
-        "skor_Random Forest": 0.840783995364194,
-        "skor_SVM (Linear)": 0.2863479669437124,
-        "skor_KNN": 0.45,
+        "skor_Random Forest": 0.9371208976169032,
+        "skor_KNN": 0.5209523745823891,
+        "skor_SVM (Linear)": 0.26676195369583316,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.390783995364194
+        "selisih_juara_1_2": 0.4161685230345141
       },
       {
         "bobot_recall": 0.46,
-        "skor_Random Forest": 0.8396384277717136,
-        "skor_SVM (Linear)": 0.2811416402720085,
-        "skor_KNN": 0.46,
+        "skor_Random Forest": 0.9371946353072911,
+        "skor_KNN": 0.5296623314081639,
+        "skor_SVM (Linear)": 0.2619117363559089,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.3796384277717136
+        "selisih_juara_1_2": 0.4075323038991272
       },
       {
         "bobot_recall": 0.47,
-        "skor_Random Forest": 0.8384928601792333,
-        "skor_SVM (Linear)": 0.2759353136003047,
-        "skor_KNN": 0.47,
+        "skor_Random Forest": 0.937268372997679,
+        "skor_KNN": 0.5383722882339386,
+        "skor_SVM (Linear)": 0.2570615190159847,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.36849286017923333
+        "selisih_juara_1_2": 0.3988960847637404
       },
       {
         "bobot_recall": 0.48,
-        "skor_Random Forest": 0.8373472925867529,
-        "skor_SVM (Linear)": 0.27072898692860076,
-        "skor_KNN": 0.48,
+        "skor_Random Forest": 0.9373421106880668,
+        "skor_KNN": 0.5470822450597134,
+        "skor_SVM (Linear)": 0.25221130167606043,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.3573472925867529
+        "selisih_juara_1_2": 0.39025986562835346
       },
       {
         "bobot_recall": 0.49,
-        "skor_Random Forest": 0.8362017249942726,
-        "skor_SVM (Linear)": 0.26552266025689697,
-        "skor_KNN": 0.49,
+        "skor_Random Forest": 0.9374158483784546,
+        "skor_KNN": 0.5557922018854881,
+        "skor_SVM (Linear)": 0.24736108433613618,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.3462017249942726
+        "selisih_juara_1_2": 0.38162364649296654
       },
       {
         "bobot_recall": 0.5,
-        "skor_Random Forest": 0.8350561574017923,
-        "skor_SVM (Linear)": 0.2603163335851931,
-        "skor_KNN": 0.5,
+        "skor_Random Forest": 0.9374895860688424,
+        "skor_KNN": 0.5645021587112627,
+        "skor_SVM (Linear)": 0.24251086699621194,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.3350561574017923
+        "selisih_juara_1_2": 0.3729874273575796
       },
       {
         "bobot_recall": 0.51,
-        "skor_Random Forest": 0.8339105898093119,
-        "skor_SVM (Linear)": 0.2551100069134892,
-        "skor_KNN": 0.51,
+        "skor_Random Forest": 0.9375633237592302,
+        "skor_KNN": 0.5732121155370375,
+        "skor_SVM (Linear)": 0.2376606496562877,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.32391058980931187
+        "selisih_juara_1_2": 0.3643512082221927
       },
       {
         "bobot_recall": 0.52,
-        "skor_Random Forest": 0.8327650222168317,
-        "skor_SVM (Linear)": 0.24990368024178536,
-        "skor_KNN": 0.52,
+        "skor_Random Forest": 0.9376370614496181,
+        "skor_KNN": 0.5819220723628122,
+        "skor_SVM (Linear)": 0.23281043231636345,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.31276502221683167
+        "selisih_juara_1_2": 0.3557149890868059
       },
       {
         "bobot_recall": 0.53,
-        "skor_Random Forest": 0.8316194546243513,
-        "skor_SVM (Linear)": 0.2446973535700815,
-        "skor_KNN": 0.53,
+        "skor_Random Forest": 0.937710799140006,
+        "skor_KNN": 0.590632029188587,
+        "skor_SVM (Linear)": 0.22796021497643923,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.30161945462435125
+        "selisih_juara_1_2": 0.34707876995141895
       },
       {
         "bobot_recall": 0.54,
-        "skor_Random Forest": 0.830473887031871,
-        "skor_SVM (Linear)": 0.23949102689837762,
-        "skor_KNN": 0.54,
+        "skor_Random Forest": 0.9377845368303938,
+        "skor_KNN": 0.5993419860143618,
+        "skor_SVM (Linear)": 0.22310999763651498,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.29047388703187094
+        "selisih_juara_1_2": 0.3384425508160319
       },
       {
         "bobot_recall": 0.55,
-        "skor_Random Forest": 0.8293283194393906,
-        "skor_SVM (Linear)": 0.23428470022667375,
-        "skor_KNN": 0.55,
+        "skor_Random Forest": 0.9378582745207816,
+        "skor_KNN": 0.6080519428401365,
+        "skor_SVM (Linear)": 0.2182597802965907,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.2793283194393905
+        "selisih_juara_1_2": 0.3298063316806451
       },
       {
         "bobot_recall": 0.56,
-        "skor_Random Forest": 0.8281827518469104,
-        "skor_SVM (Linear)": 0.2290783735549699,
-        "skor_KNN": 0.56,
+        "skor_Random Forest": 0.9379320122111695,
+        "skor_KNN": 0.6167618996659113,
+        "skor_SVM (Linear)": 0.2134095629566665,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.2681827518469103
+        "selisih_juara_1_2": 0.3211701125452582
       },
       {
         "bobot_recall": 0.57,
-        "skor_Random Forest": 0.8270371842544298,
-        "skor_SVM (Linear)": 0.2238720468832661,
-        "skor_KNN": 0.57,
+        "skor_Random Forest": 0.9380057499015574,
+        "skor_KNN": 0.625471856491686,
+        "skor_SVM (Linear)": 0.20855934561674225,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.2570371842544299
+        "selisih_juara_1_2": 0.31253389340987137
       },
       {
         "bobot_recall": 0.58,
-        "skor_Random Forest": 0.8258916166619497,
-        "skor_SVM (Linear)": 0.21866572021156222,
-        "skor_KNN": 0.58,
+        "skor_Random Forest": 0.9380794875919451,
+        "skor_KNN": 0.6341818133174608,
+        "skor_SVM (Linear)": 0.20370912827681797,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.2458916166619497
+        "selisih_juara_1_2": 0.30389767427448433
       },
       {
         "bobot_recall": 0.59,
-        "skor_Random Forest": 0.8247460490694695,
-        "skor_SVM (Linear)": 0.21345939353985835,
-        "skor_KNN": 0.59,
+        "skor_Random Forest": 0.938153225282333,
+        "skor_KNN": 0.6428917701432355,
+        "skor_SVM (Linear)": 0.19885891093689378,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.2347460490694695
+        "selisih_juara_1_2": 0.2952614551390975
       },
       {
         "bobot_recall": 0.6,
-        "skor_Random Forest": 0.8236004814769889,
-        "skor_SVM (Linear)": 0.20825306686815448,
-        "skor_KNN": 0.6,
+        "skor_Random Forest": 0.9382269629727208,
+        "skor_KNN": 0.6516017269690103,
+        "skor_SVM (Linear)": 0.19400869359696948,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.22360048147698897
+        "selisih_juara_1_2": 0.2866252360037105
       },
       {
         "bobot_recall": 0.61,
-        "skor_Random Forest": 0.8224549138845086,
-        "skor_SVM (Linear)": 0.2030467401964506,
-        "skor_KNN": 0.61,
+        "skor_Random Forest": 0.9383007006631087,
+        "skor_KNN": 0.6603116837947851,
+        "skor_SVM (Linear)": 0.1891584762570453,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.21245491388450866
+        "selisih_juara_1_2": 0.27798901686832356
       },
       {
         "bobot_recall": 0.62,
-        "skor_Random Forest": 0.8213093462920283,
-        "skor_SVM (Linear)": 0.19784041352474674,
-        "skor_KNN": 0.62,
+        "skor_Random Forest": 0.9383744383534965,
+        "skor_KNN": 0.6690216406205597,
+        "skor_SVM (Linear)": 0.1843082589171211,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.20130934629202835
+        "selisih_juara_1_2": 0.26935279773293686
       },
       {
         "bobot_recall": 0.63,
-        "skor_Random Forest": 0.8201637786995479,
-        "skor_SVM (Linear)": 0.19263408685304287,
-        "skor_KNN": 0.63,
+        "skor_Random Forest": 0.9384481760438844,
+        "skor_KNN": 0.6777315974463345,
+        "skor_SVM (Linear)": 0.17945804157719683,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.19016377869954793
+        "selisih_juara_1_2": 0.26071657859754993
       },
       {
         "bobot_recall": 0.64,
-        "skor_Random Forest": 0.8190182111070675,
-        "skor_SVM (Linear)": 0.187427760181339,
-        "skor_KNN": 0.64,
+        "skor_Random Forest": 0.9385219137342723,
+        "skor_KNN": 0.6864415542721092,
+        "skor_SVM (Linear)": 0.17460782423727259,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.1790182111070675
+        "selisih_juara_1_2": 0.2520803594621631
       },
       {
         "bobot_recall": 0.65,
-        "skor_Random Forest": 0.8178726435145873,
-        "skor_SVM (Linear)": 0.18222143350963516,
-        "skor_KNN": 0.65,
+        "skor_Random Forest": 0.9385956514246602,
+        "skor_KNN": 0.695151511097884,
+        "skor_SVM (Linear)": 0.16975760689734837,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.1678726435145873
+        "selisih_juara_1_2": 0.2434441403267762
       },
       {
         "bobot_recall": 0.66,
-        "skor_Random Forest": 0.816727075922107,
-        "skor_SVM (Linear)": 0.17701510683793126,
-        "skor_KNN": 0.66,
+        "skor_Random Forest": 0.9386693891150479,
+        "skor_KNN": 0.7038614679236587,
+        "skor_SVM (Linear)": 0.1649073895574241,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.156727075922107
+        "selisih_juara_1_2": 0.23480792119138927
       },
       {
         "bobot_recall": 0.67,
-        "skor_Random Forest": 0.8155815083296267,
-        "skor_SVM (Linear)": 0.17180878016622741,
-        "skor_KNN": 0.67,
+        "skor_Random Forest": 0.9387431268054358,
+        "skor_KNN": 0.7125714247494335,
+        "skor_SVM (Linear)": 0.16005717221749988,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.14558150832962669
+        "selisih_juara_1_2": 0.22617170205600234
       },
       {
         "bobot_recall": 0.68,
-        "skor_Random Forest": 0.8144359407371463,
-        "skor_SVM (Linear)": 0.16660245349452354,
-        "skor_KNN": 0.68,
+        "skor_Random Forest": 0.9388168644958236,
+        "skor_KNN": 0.7212813815752082,
+        "skor_SVM (Linear)": 0.1552069548775757,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.13443594073714626
+        "selisih_juara_1_2": 0.21753548292061542
       },
       {
         "bobot_recall": 0.69,
-        "skor_Random Forest": 0.813290373144666,
-        "skor_SVM (Linear)": 0.16139612682281973,
-        "skor_KNN": 0.69,
+        "skor_Random Forest": 0.9388906021862115,
+        "skor_KNN": 0.7299913384009828,
+        "skor_SVM (Linear)": 0.15035673753765144,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.12329037314466607
+        "selisih_juara_1_2": 0.2088992637852286
       },
       {
         "bobot_recall": 0.7,
-        "skor_Random Forest": 0.8121448055521857,
-        "skor_SVM (Linear)": 0.15618980015111586,
-        "skor_KNN": 0.7,
+        "skor_Random Forest": 0.9389643398765992,
+        "skor_KNN": 0.7387012952267576,
+        "skor_SVM (Linear)": 0.14550652019772717,
         "pemenang": "Random Forest",
-        "selisih_juara_1_2": 0.11214480555218576
+        "selisih_juara_1_2": 0.20026304464984157
       }
     ],
-    "titik_balik_peringkat": [
-      {
-        "bobot_recall": 0.805,
-        "dari": "Random Forest",
-        "menjadi": "KNN"
-      }
-    ],
+    "titik_balik_peringkat": [],
     "model_produksi": "Random Forest",
     "kesimpulan": "Enam eksperimen tambahan dijalankan untuk menguji keputusan desain yang sebelumnya tidak diuji. (1) Ablation terhadap sepuluh strategi penanganan data tidak seimbang menunjukkan bahwa SMOTE yang dipadukan dengan class weighting memberi keseimbangan recall-precision terbaik tanpa membuang data mayoritas. (2) Ablation fitur membuktikan penambahan tiga fitur yang semula dibuang (jenis kelamin, penyakit jantung, riwayat merokok) tidak memberi perbaikan yang signifikan secara statistik, sehingga penggunaan lima fitur terjustifikasi. (3) Uji robustness terhadap noise Gaussian, missing value, dan pergeseran distribusi menunjukkan model tetap stabil pada gangguan wajar. (4) Evaluasi subgrup dengan selang kepercayaan 95% memetakan kelompok pasien yang perlu perhatian klinis. (5) Benchmark operasional menunjukkan Random Forest jauh lebih cepat daripada KNN dan artefak produksinya dapat diperkecil drastis dengan membatasi kedalaman pohon. (6) Matriks keputusan multi-kriteria dengan analisis sensitivitas bobot menetapkan Random Forest sebagai model produksi, sekaligus menutup inkonsistensi antara kesimpulan notebook V2 yang menyebut KNN sebagai model terbaik dengan implementasi sistem yang memakai Random Forest.",
     "sumber": "Notebook 05 (V3)"
@@ -8667,45 +8661,44 @@
   "matriks_keputusan": [
     {
       "model": "Random Forest",
-      "sumber_angka": "V2 (data penuh) + ukuran terukur",
-      "recall": 0.9057,
-      "roc_auc": 0.9733,
-      "precision": 0.4481,
-      "f1": 0.5995,
+      "recall": 0.919811,
+      "roc_auc": 0.973169,
+      "precision": 0.425997,
+      "f1": 0.582307,
       "kecepatan": 0.018,
-      "ukuran": 2.925589,
-      "norm_recall": 0.7777777777777757,
-      "kontrib_recall": 0.2722222222222215,
+      "ukuran": 3.736462,
+      "norm_recall": 0.941176,
+      "kontrib_recall": 0.329412,
       "norm_roc_auc": 1.0,
       "kontrib_roc_auc": 0.25,
       "norm_precision": 1.0,
       "kontrib_precision": 0.15,
       "norm_f1": 1.0,
       "kontrib_f1": 0.1,
-      "norm_kecepatan": 0.782608695652174,
-      "kontrib_kecepatan": 0.0782608695652174,
-      "norm_ukuran": 0.035131590031167614,
-      "kontrib_ukuran": 0.0017565795015583808,
-      "skor_komposit": 0.8522396712889972,
+      "norm_kecepatan": 0.782609,
+      "kontrib_kecepatan": 0.078261,
+      "norm_ukuran": 0.574218,
+      "kontrib_ukuran": 0.028711,
+      "skor_komposit": 0.936384,
       "peringkat": 1,
+      "interpretabilitas": "Tinggi (feature importance + TreeSHAP)",
+      "catatan": "Recall hampir setara KNN tetapi precision, ROC-AUC, dan kecepatan inferensi jauh lebih baik; skor komposit tertinggi sehingga dipilih sebagai model produksi.",
       "waktu_infer_ms": 93.35470199584961,
       "ms_per_sampel": 0.018,
-      "interpretabilitas": "Tinggi (feature importance + TreeSHAP)",
-      "catatan": "Recall hampir setara KNN tetapi precision, ROC-AUC, dan kecepatan inferensi jauh lebih baik; skor komposit tertinggi sehingga dipilih sebagai model produksi."
+      "sumber_angka": "rf_model.pkl produksi, dievaluasi ulang pada test set 20% (tidak dilatih ulang); ukuran diukur dari pickle classifier."
     },
     {
       "model": "KNN",
-      "sumber_angka": "V2 (data penuh) + ukuran terukur",
-      "recall": 0.9121,
-      "roc_auc": 0.9524,
-      "precision": 0.371,
-      "f1": 0.5274,
+      "recall": 0.92217,
+      "roc_auc": 0.963145,
+      "precision": 0.378509,
+      "f1": 0.536719,
       "kecepatan": 0.081,
-      "ukuran": 3.027768,
+      "ukuran": 8.773164,
       "norm_recall": 1.0,
       "kontrib_recall": 0.35,
-      "norm_roc_auc": 0.0,
-      "kontrib_roc_auc": 0.0,
+      "norm_roc_auc": 0.335411,
+      "kontrib_roc_auc": 0.083853,
       "norm_precision": 0.0,
       "kontrib_precision": 0.0,
       "norm_f1": 0.0,
@@ -8714,43 +8707,44 @@
       "kontrib_kecepatan": 0.0,
       "norm_ukuran": 0.0,
       "kontrib_ukuran": 0.0,
-      "skor_komposit": 0.35,
+      "skor_komposit": 0.433853,
       "peringkat": 2,
+      "interpretabilitas": "Rendah (lazy learner)",
+      "catatan": "Recall tertinggi, tetapi precision terendah, ROC-AUC terendah, dan inferensi paling lambat sehingga tidak layak dipakai di produksi.",
       "waktu_infer_ms": 180.18770217895508,
       "ms_per_sampel": 0.081,
-      "interpretabilitas": "Rendah (lazy learner)",
-      "catatan": "Recall tertinggi, tetapi precision terendah, ROC-AUC terendah, dan inferensi paling lambat sehingga tidak layak dipakai di produksi."
+      "sumber_angka": "Dilatih ulang k=51 pada data penuh lewat Perbaikan_KNN_SVM_V3.ipynb; ukuran diukur dari pickle classifier."
     },
     {
       "model": "SVM (Linear)",
-      "sumber_angka": "V2 (data penuh) + ukuran terukur",
-      "recall": 0.8833,
-      "roc_auc": 0.9581,
-      "precision": 0.4097,
-      "f1": 0.5598,
+      "recall": 0.882075,
+      "roc_auc": 0.958086,
+      "precision": 0.412917,
+      "f1": 0.562512,
       "kecepatan": 0.0005,
-      "ukuran": 0.119303,
+      "ukuran": 0.001749,
       "norm_recall": 0.0,
       "kontrib_recall": 0.0,
-      "norm_roc_auc": 0.2727272727272689,
-      "kontrib_roc_auc": 0.06818181818181722,
-      "norm_precision": 0.5019455252918289,
-      "kontrib_precision": 0.07529182879377433,
-      "norm_f1": 0.4493758668515945,
-      "kontrib_f1": 0.04493758668515945,
+      "norm_roc_auc": 0.0,
+      "kontrib_roc_auc": 0.0,
+      "norm_precision": 0.724575,
+      "kontrib_precision": 0.108686,
+      "norm_f1": 0.565779,
+      "kontrib_f1": 0.056578,
       "norm_kecepatan": 1.0,
       "kontrib_kecepatan": 0.1,
       "norm_ukuran": 1.0,
       "kontrib_ukuran": 0.05,
-      "skor_komposit": 0.33841123366075104,
+      "skor_komposit": 0.315264,
       "peringkat": 3,
+      "interpretabilitas": "Sedang (bobot w linier)",
+      "catatan": "Paling ringan dan paling cepat, tetapi recall paling rendah sehingga kurang sesuai untuk keperluan skrining.",
       "waktu_infer_ms": 6.413459777832031,
       "ms_per_sampel": 0.0005,
-      "interpretabilitas": "Sedang (bobot w linier)",
-      "catatan": "Paling ringan dan paling cepat, tetapi recall paling rendah sehingga kurang sesuai untuk keperluan skrining."
+      "sumber_angka": "Dilatih ulang C=0.001 pada data penuh lewat Perbaikan_KNN_SVM_V3.ipynb; ukuran diukur dari pickle classifier."
     }
   ],
-  "sumber_matriks_keputusan": "Notebook 05 (V3)",
+  "sumber_matriks_keputusan": "Notebook 05 (V3), dihitung ulang pada Perbaikan_KNN_SVM_V3.ipynb setelah KNN dan SVM dilatih ulang. Ketiga model diukur pada split uji yang sama; kolom kecepatan dibawa dari benchmark sebelumnya.",
   "xai": {
     "metode_utama": "Permutation Importance (Mean Decrease Recall)",
     "model_sumber": "Random Forest (model final produksi)",
@@ -8830,5 +8824,29 @@
         }
       ]
     }
+  },
+  "pembaruan_model_pembanding": {
+    "tanggal": "2026-08-07",
+    "notebook": "Perbaikan_KNN_SVM_V3.ipynb",
+    "perubahan": {
+      "KNN": {
+        "dari": "k=21 (baseline V2)",
+        "menjadi": "k=51",
+        "sumber": "Notebook 02 (V3) - aturan one-standard-error"
+      },
+      "SVM (Linear)": {
+        "dari": "C=0.1 (baseline V2)",
+        "menjadi": "C=0.001",
+        "sumber": "Notebook 03 (V3) - margin terlebar yang menjaga recall"
+      }
+    },
+    "tidak_diubah": [
+      "rf_model.pkl",
+      "scaler.pkl",
+      "threshold produksi",
+      "feature_order",
+      "winsorization"
+    ],
+    "keterbatasan": "Nilai k=51 dan C=0.001 dipilih dari eksperimen bermode MODE_CEPAT=True (sweep k pada 30.000 baris, grid SVM pada subsample 20.000 baris). Modelnya dilatih pada data penuh, tetapi pemilihan nilainya bersandar pada eksperimen pratinjau. Notebook 02 juga mencatat k=51 berada tepat di batas atas ruang pencarian sehingga optimumnya belum terkurung."
   }
 }
