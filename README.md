@@ -109,15 +109,19 @@ Disarankan menggunakan Python Virtual Environment agar library machine learning 
 
 ---
 
-### Langkah 6: Training Machine Learning Model (Opsional)
-Project ini memerlukan file model (`rf_model.pkl`) dan file scaler (`scaler.pkl`) agar fungsi prediksi dapat berjalan. File model bawaan sudah tersedia, namun jika Anda ingin melatih ulang model dengan dataset terbaru, jalankan langkah berikut:
+### Langkah 6: Melatih Ulang Model (Opsional)
+Project ini memerlukan file model (`rf_model.pkl`) dan file scaler (`scaler.pkl`) agar fungsi prediksi dapat berjalan. File model bawaan sudah tersedia dan **tidak perlu dilatih ulang** untuk menjalankan aplikasi.
 
-1. Pastikan virtual environment dalam keadaan **aktif**.
-2. Jalankan script training:
-   ```bash
-   python model/train_model.py
-   ```
-   *Script ini akan otomatis mengunduh dataset resmi dari Kaggle via `kagglehub`, melakukan preprocessing data, menangani ketidakseimbangan kelas dengan SMOTE, melatih model Random Forest, dan mengekspor hasilnya ke folder `model/`.*
+Bila ingin melatih ulang, gunakan notebook di folder `Revisi_Pengujian_V3/` — bukan skrip terpisah:
+
+| Kebutuhan | Notebook |
+| --- | --- |
+| Model produksi (Random Forest) + `scaler.pkl` + `model_metadata.json` | `06_Model_Final_dan_Export_Produksi.ipynb` (BAGIAN 7) |
+| Model pembanding KNN & SVM | `Perbaikan_KNN_SVM_V3.ipynb` |
+
+Notebook menangani unduh dataset dari Kaggle, penghapusan duplikat, winsorization, SMOTE (hanya saat fit), dan ekspor artefak dengan urutan fitur yang terkunci di `model_metadata.json`.
+
+> Skrip lama `model/train_model.py` sudah dihapus. Skrip itu memakai `RandomForestClassifier` default tanpa `max_depth` sehingga menghasilkan pickle ~78 MB dan hyperparameter yang berbeda dari yang dilaporkan di skripsi.
 
 ---
 

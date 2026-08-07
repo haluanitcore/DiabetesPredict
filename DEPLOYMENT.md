@@ -93,7 +93,7 @@ menghitung probabilitas diabetes dari 5 parameter medis.
 
 ### 🟡 MINOR / kebersihan
 - Data dummy `gender/heart_disease/smoking_history = 0` disimpan padahal kolom NOT NULL — konsisten, tapi form & skema tidak sinkron.
-- Artefak riset (`*.ipynb` ~4 MB, `code_html/`, script `*.js/.cjs`) ikut di repo → dikecualikan via `.dockerignore`.
+- Artefak riset (`*.ipynb`, `Revisi_Pengujian_V3/`) ikut di repo → dikecualikan dari image via `.dockerignore`. Mockup desain `code_html/` dan script konversinya sudah dihapus karena hasilnya sudah menjadi Blade di `resources/views/`.
 - CORS **tidak relevan** (aplikasi server-rendered Blade, tanpa API terpisah / frontend domain lain).
 - Reverse proxy & SSL ditangani otomatis oleh Railway (tidak perlu Nginx manual).
 

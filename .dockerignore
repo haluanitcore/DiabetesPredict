@@ -14,10 +14,6 @@
 *.ipynb
 /Revisi_Pengujian_V3
 /model/_backup_legacy
-/code_html
-extract_theme.js
-parse_html.cjs
-process_html.js
 
 # Git & tooling
 .git
