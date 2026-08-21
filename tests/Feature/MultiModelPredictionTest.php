@@ -223,7 +223,7 @@ class MultiModelPredictionTest extends TestCase
         $this->assertNull($this->prediksi->konsensus([]));
     }
 
-    public function test_kolom_dari_hasil_mengubah_probabilitas_menjadi_persen(): void
+    public function test_kolom_dari_hasil_memakai_probabilitas_tertinggi(): void
     {
         $kolom = $this->prediksi->kolomDariHasil([
             'prediction' => 1,
@@ -236,13 +236,52 @@ class MultiModelPredictionTest extends TestCase
             ],
         ]);
 
+        // KNN yang tertinggi (100%), jadi itu yang dipakai -- bukan Random Forest (99,97%).
         $this->assertSame(1, $kolom['prediction']);
-        $this->assertEqualsWithDelta(99.97, $kolom['probability'], 1e-6);
+        $this->assertEqualsWithDelta(100.0, $kolom['probability'], 1e-6);
         $this->assertEqualsWithDelta(100.0, $kolom['knn_probability'], 1e-6);
         $this->assertSame(1, $kolom['knn_prediction']);
         $this->assertEqualsWithDelta(40.0, $kolom['svm_probability'], 1e-6);
         $this->assertSame(0, $kolom['svm_prediction']);
         $this->assertSame('v3.0-revisi', $kolom['model_version']);
+    }
+
+    public function test_kolom_dari_hasil_mengikuti_model_tertinggi_walau_berbeda_label(): void
+    {
+        // Kasus nyata yang dilaporkan: Random Forest menilai Risiko Rendah (35,9%)
+        // sementara SVM menilai Risiko Tinggi (64,1%). Hasil yang disimpan harus
+        // mengikuti SVM, termasuk LABEL-nya, bukan hanya angkanya.
+        $kolom = $this->prediksi->kolomDariHasil([
+            'prediction' => 0,
+            'probability' => 0.359,
+            'models' => [
+                'rf'  => ['probability' => 0.359, 'prediction' => 0],
+                'knn' => ['probability' => 0.333, 'prediction' => 0],
+                'svm' => ['probability' => 0.641, 'prediction' => 1],
+            ],
+        ]);
+
+        $this->assertSame(1, $kolom['prediction'], 'label harus ikut SVM yang tertinggi');
+        $this->assertEqualsWithDelta(64.1, $kolom['probability'], 1e-6);
+    }
+
+    public function test_kolom_dari_hasil_menghitung_label_bila_prediction_tidak_dikirim(): void
+    {
+        // Bila `prediction` per model tidak ada, label dihitung dari ambang model
+        // itu sendiri -- bukan dari 50%.
+        $kolom = $this->prediksi->kolomDariHasil([
+            'prediction' => 0,
+            'probability' => 0.20,
+            'models' => [
+                'rf'  => ['probability' => 0.20, 'threshold' => 0.4621],
+                'knn' => ['probability' => 0.45, 'threshold' => 0.4118],
+            ],
+        ]);
+
+        // KNN tertinggi (45%) dan melampaui ambangnya sendiri (41,18%) -> Risiko Tinggi,
+        // walau angkanya masih di bawah 50%.
+        $this->assertSame(1, $kolom['prediction']);
+        $this->assertEqualsWithDelta(45.0, $kolom['probability'], 1e-6);
     }
 
     public function test_kolom_dari_hasil_tetap_aman_tanpa_blok_models(): void

@@ -279,18 +279,13 @@ class AnalysisController extends Controller
         // (mis. saat artefak KNN/SVM memang belum tersedia di server).
         if ($perbandingan === [] && ($history->model_version ?? null) === null) {
             $history = $this->hitungUlangRekamanLama($history) ?? $history;
-            $perbandingan = $this->prediksi->rakitPerbandingan($history, $katalog);
         }
 
-        $exp = $this->experiments();
-
-        return view('analysis.detail', [
-            'history'      => $history,
-            'perbandingan' => $perbandingan,
-            'konsensus'    => $this->prediksi->konsensus($perbandingan),
-            'modelTerbaik' => $this->modelTerbaik($katalog, $exp),
-            'exp'          => $exp,
-        ]);
+        // Halaman detail kini hanya menampilkan satu hasil, jadi katalog model dan
+        // experiments.json tidak lagi dikirim ke tampilan. rakitPerbandingan() di atas
+        // tetap dipakai: nilainya yang kosong itulah penanda bahwa rekaman lama perlu
+        // dihitung ulang.
+        return view('analysis.detail', ['history' => $history]);
     }
 
     /**

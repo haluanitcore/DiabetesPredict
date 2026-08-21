@@ -303,9 +303,39 @@ class PrediksiMultiModel
     {
         $models = is_array($hasil['models'] ?? null) ? $hasil['models'] : [];
 
+        // Hasil yang ditampilkan diambil dari model dengan PROBABILITAS TERTINGGI,
+        // bukan dari model produksi. Label risiko memakai ambang milik model yang
+        // terpilih itu sendiri, karena tiap model punya ambang Youden yang berbeda
+        // (RF 0,4621 - KNN 0,4118 - SVM 0,4981) sehingga membandingkannya terhadap
+        // 50% akan keliru.
+        $terpilih = null;
+        foreach ($models as $m) {
+            if (!is_array($m) || !isset($m['probability']) || !is_numeric($m['probability'])) {
+                continue;
+            }
+            if ($terpilih === null || (float) $m['probability'] > (float) $terpilih['probability']) {
+                $terpilih = $m;
+            }
+        }
+
+        if ($terpilih !== null) {
+            $prob = (float) $terpilih['probability'];
+            // `prediction` selalu dikirim predict.py; bila hilang, hitung dari ambangnya.
+            $pred = isset($terpilih['prediction']) && $terpilih['prediction'] !== null
+                ? (int) $terpilih['prediction']
+                : (isset($terpilih['threshold']) && is_numeric($terpilih['threshold'])
+                    ? (int) ($prob >= (float) $terpilih['threshold'])
+                    : 0);
+        } else {
+            // Cadangan: blok `models` tidak ada (mis. artefak pembanding belum tersalin).
+            // Pakai keluaran model produksi apa adanya supaya prediksi tetap berjalan.
+            $prob = (float) ($hasil['probability'] ?? 0);
+            $pred = (int) ($hasil['prediction'] ?? 0);
+        }
+
         $kolom = [
-            'prediction'    => (int) ($hasil['prediction'] ?? 0),
-            'probability'   => (float) ($hasil['probability'] ?? 0) * 100,
+            'prediction'    => $pred,
+            'probability'   => $prob * 100,
             'model_version' => isset($hasil['model_version'])
                 ? substr((string) $hasil['model_version'], 0, 32)
                 : null,
