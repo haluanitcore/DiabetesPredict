@@ -27,13 +27,16 @@ class PrediksiMultiModel
     ];
 
     /**
-     * Kolom penyimpan probabilitas tiap model pada tabel analysis_results.
+     * Kolom penyimpan probabilitas MILIK tiap model pada tabel analysis_results.
      * Urutan larik ini juga menjadi urutan pembacaan (sebelum diurutkan ulang).
-     * Model produksi memakai kolom lama `probability` supaya rekaman lama tetap
-     * terbaca tanpa migrasi data.
+     *
+     * `rf_probability`, bukan `probability`: kolom `probability` menyimpan hasil
+     * yang ditampilkan untuk pasien, yang sejak aturan "probabilitas tertinggi"
+     * bisa berasal dari model mana pun. Memakainya sebagai angka Random Forest
+     * membuat baris RF di panel menampilkan nilai model lain.
      */
     private const KOLOM_PROBABILITAS = [
-        'rf'  => 'probability',
+        'rf'  => 'rf_probability',
         'knn' => 'knn_probability',
         'svm' => 'svm_probability',
     ];
@@ -190,6 +193,13 @@ class PrediksiMultiModel
         foreach (self::KOLOM_PROBABILITAS as $id => $kolom) {
             $persen = $history->{$kolom} ?? null;
 
+            // Rekaman yang dibuat sebelum kolom rf_probability ada menyimpan angka
+            // Random Forest di kolom `probability`, karena saat itu hasil pasien
+            // memang selalu berasal dari Random Forest.
+            if ($id === 'rf' && $persen === null) {
+                $persen = $history->probability ?? null;
+            }
+
             if ($persen === null) {
                 continue;
             }
@@ -200,7 +210,7 @@ class PrediksiMultiModel
             // (0..1 untuk perbandingan dengan ambang, 0..100 untuk teks & lebar bar).
             $probability = ((float) $persen) / 100;
 
-            // Tiap model memakai AMBANG-nya sendiri (RF 0.4621, KNN 0.3810, SVM 0.4951).
+            // Tiap model memakai AMBANG-nya sendiri (RF 0,4621, KNN 0,4118, SVM 0,4981 -- nilai pasti dibaca dari model_metadata.json).
             // Ambang itu hasil optimasi Youden's J per model; memakai satu ambang untuk
             // ketiganya membuat KNN tampak jauh lebih buruk daripada kenyataannya.
             // Keputusan dihitung ulang di sini (bukan diambil dari kolom prediction)
@@ -244,9 +254,10 @@ class PrediksiMultiModel
     /**
      * Ringkasan kesepakatan antar model.
      *
-     * Label acuan adalah keputusan model produksi — bukan suara terbanyak — karena
-     * model produksilah yang menentukan hasil yang ditampilkan ke pasien; model lain
-     * berfungsi sebagai pembanding, bukan pemilih.
+     * Label acuan adalah keputusan model BERPROBABILITAS TERTINGGI — bukan suara
+     * terbanyak, dan bukan pula model produksi — karena model itulah yang menentukan
+     * hasil yang ditampilkan ke pasien. Memakai acuan lain membuat badge konsensus
+     * bisa berbunyi "Risiko Rendah" tepat di samping hasil utama "Risiko Tinggi".
      *
      * @param  array<int, array<string, mixed>>  $perbandingan
      * @return array{setuju:int,total:int,bulat:bool,label:int}|null
@@ -349,7 +360,10 @@ class PrediksiMultiModel
                 : null,
         ];
 
-        foreach (['knn', 'svm'] as $id) {
+        // Random Forest ikut disimpan pada kolomnya sendiri. Tanpa ini angka RF
+        // hilang tertimpa hasil model pemenang, dan panel perbandingan akan
+        // menampilkan baris "Random Forest" dengan nilai milik model lain.
+        foreach (['rf', 'knn', 'svm'] as $id) {
             $model = is_array($models[$id] ?? null) ? $models[$id] : [];
 
             $kolom[$id . '_probability'] = isset($model['probability'])
@@ -358,6 +372,12 @@ class PrediksiMultiModel
             $kolom[$id . '_prediction'] = isset($model['prediction'])
                 ? (int) $model['prediction']
                 : null;
+        }
+
+        // Tanpa blok `models`, keluaran yang ada memang milik model produksi (RF).
+        if ($kolom['rf_probability'] === null && $terpilih === null) {
+            $kolom['rf_probability'] = $prob * 100;
+            $kolom['rf_prediction']  = $pred;
         }
 
         return $kolom;

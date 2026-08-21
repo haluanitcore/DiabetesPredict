@@ -69,6 +69,8 @@ class MultiModelPredictionTest extends TestCase
             'blood_glucose_level' => 140,
             'prediction' => 1,
             'probability' => 99.97,
+            'rf_probability' => 99.97,
+            'rf_prediction' => 1,
             'knn_probability' => 100.0,
             'knn_prediction' => 1,
             'svm_probability' => 99.98,
@@ -100,7 +102,7 @@ class MultiModelPredictionTest extends TestCase
         // Random Forest sengaja diberi probabilitas paling rendah untuk memastikan
         // urutan ditentukan oleh status produksi, bukan semata oleh besarnya angka.
         $history = $this->riwayatPalsu([
-            'probability' => 20.0,
+            'rf_probability' => 20.0,
             'knn_probability' => 90.0,
             'svm_probability' => 50.0,
         ]);
@@ -116,7 +118,7 @@ class MultiModelPredictionTest extends TestCase
     public function test_probabilitas_persen_dikonversi_ke_skala_nol_sampai_satu(): void
     {
         $history = $this->riwayatPalsu([
-            'probability' => 99.97,
+            'rf_probability' => 99.97,
             'knn_probability' => 100.0,
             'svm_probability' => 42.5,
         ]);
@@ -141,7 +143,7 @@ class MultiModelPredictionTest extends TestCase
         // KNN (ambang 0,381) -> positif, RF (0,4621) dan SVM (0,4951) -> negatif.
         // Bila satu ambang dipakai untuk ketiganya, KNN akan salah dinilai negatif.
         $history = $this->riwayatPalsu([
-            'probability' => 40.0,
+            'rf_probability' => 40.0,
             'knn_probability' => 40.0,
             'svm_probability' => 40.0,
         ]);
@@ -188,7 +190,7 @@ class MultiModelPredictionTest extends TestCase
         // RF 90% -> 1, KNN 90% -> 1, SVM 10% -> 0. Acuan adalah model tertinggi;
         // RF dan KNN seri di 90% dan keduanya berlabel 1, jadi label tetap 1.
         $history = $this->riwayatPalsu([
-            'probability' => 90.0,
+            'rf_probability' => 90.0,
             'knn_probability' => 90.0,
             'svm_probability' => 10.0,
         ]);
@@ -210,7 +212,7 @@ class MultiModelPredictionTest extends TestCase
         // badge konsensus akan berbunyi "Risiko Rendah" tepat di samping hasil utama
         // yang berbunyi "Risiko Tinggi" -- satu halaman, dua pesan bertentangan.
         $history = $this->riwayatPalsu([
-            'probability' => 20.0,
+            'rf_probability' => 20.0,
             'knn_probability' => 95.0,
             'svm_probability' => 95.0,
         ]);
@@ -268,6 +270,54 @@ class MultiModelPredictionTest extends TestCase
 
         $this->assertSame(1, $kolom['prediction'], 'label harus ikut SVM yang tertinggi');
         $this->assertEqualsWithDelta(64.1, $kolom['probability'], 1e-6);
+    }
+
+    public function test_angka_random_forest_tidak_tertimpa_hasil_model_pemenang(): void
+    {
+        // Regresi: kolom `probability` menyimpan HASIL untuk pasien (model tertinggi),
+        // sedangkan angka Random Forest punya kolomnya sendiri. Ketika keduanya
+        // dirangkap pada satu kolom, baris "Random Forest" di panel perbandingan
+        // menampilkan nilai model pemenang -- RF seolah menilai 68,63% padahal
+        // sebenarnya 32,96%, dan baris RF selalu seri dengan nilai tertinggi
+        // sehingga acuan konsensus tidak pernah berpindah.
+        $kolom = $this->prediksi->kolomDariHasil([
+            'prediction' => 0,
+            'probability' => 0.3296,
+            'models' => [
+                'rf'  => ['probability' => 0.3296, 'prediction' => 0],
+                'knn' => ['probability' => 0.6863, 'prediction' => 1],
+                'svm' => ['probability' => 0.1129, 'prediction' => 0],
+            ],
+        ]);
+
+        // Hasil pasien = model tertinggi (KNN).
+        $this->assertSame(1, $kolom['prediction']);
+        $this->assertEqualsWithDelta(68.63, $kolom['probability'], 1e-6);
+
+        // Angka Random Forest tetap utuh di kolomnya sendiri.
+        $this->assertEqualsWithDelta(32.96, $kolom['rf_probability'], 1e-6);
+        $this->assertSame(0, $kolom['rf_prediction']);
+
+        // Dan saat dirakit kembali untuk panel, baris RF menampilkan angka RF.
+        $history = $this->riwayatPalsu([
+            'prediction'      => $kolom['prediction'],
+            'probability'     => $kolom['probability'],
+            'rf_probability'  => $kolom['rf_probability'],
+            'knn_probability' => $kolom['knn_probability'],
+            'svm_probability' => $kolom['svm_probability'],
+        ]);
+
+        $perbandingan = collect($this->prediksi->rakitPerbandingan($history, $this->katalogPalsu()))
+            ->keyBy('id');
+
+        $this->assertEqualsWithDelta(32.96, $perbandingan['rf']['persen'], 1e-6);
+        $this->assertSame(0, $perbandingan['rf']['prediction'], 'RF harus tetap Risiko Rendah');
+        $this->assertEqualsWithDelta(68.63, $perbandingan['knn']['persen'], 1e-6);
+
+        // Acuan konsensus kini benar-benar berpindah ke KNN, bukan tersangkut di RF.
+        $konsensus = $this->prediksi->konsensus($perbandingan->values()->all());
+        $this->assertSame(1, $konsensus['label']);
+        $this->assertSame(1, $konsensus['setuju'], 'hanya KNN yang menilai Risiko Tinggi');
     }
 
     public function test_kolom_dari_hasil_menghitung_label_bila_prediction_tidak_dikirim(): void

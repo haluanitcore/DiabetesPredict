@@ -109,7 +109,7 @@ def predict_all_models(script_dir, metadata, input_scaled, fallback=None):
     Jalankan seluruh model yang terdaftar di metadata["models"] pada input yang
     SUDAH di-scale, lalu kembalikan hasil per model.
 
-    Tiap model memakai AMBANG-nya sendiri: RF 0.4621, KNN 0.3810, SVM 0.4951.
+    Tiap model memakai AMBANG-nya sendiri: RF 0.4621, KNN 0.4118, SVM 0.4981 (nilai pasti dari model_metadata.json).
     Memakai satu ambang untuk ketiganya akan membuat KNN tampak lebih buruk
     daripada kenyataannya, karena ambang optimalnya memang jauh lebih rendah.
 
