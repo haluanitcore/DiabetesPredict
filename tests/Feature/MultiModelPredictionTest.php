@@ -185,7 +185,8 @@ class MultiModelPredictionTest extends TestCase
 
     public function test_konsensus_saat_model_tidak_sepakat(): void
     {
-        // RF 90% -> 1, KNN 90% -> 1, SVM 10% -> 0. Label mengikuti model produksi (RF).
+        // RF 90% -> 1, KNN 90% -> 1, SVM 10% -> 0. Acuan adalah model tertinggi;
+        // RF dan KNN seri di 90% dan keduanya berlabel 1, jadi label tetap 1.
         $history = $this->riwayatPalsu([
             'probability' => 90.0,
             'knn_probability' => 90.0,
@@ -200,10 +201,14 @@ class MultiModelPredictionTest extends TestCase
         );
     }
 
-    public function test_konsensus_mengikuti_model_produksi_bukan_suara_terbanyak(): void
+    public function test_konsensus_mengikuti_model_tertinggi_bukan_model_produksi(): void
     {
-        // RF 20% -> 0 (produksi), KNN & SVM tinggi -> 1. Meski kalah suara,
-        // label tetap keputusan model produksi karena itulah hasil untuk pasien.
+        // RF 20% -> 0 (model produksi), KNN & SVM 95% -> 1.
+        //
+        // Acuan konsensus adalah model dengan probabilitas TERTINGGI, sama dengan
+        // aturan yang menentukan hasil pasien. Kalau acuannya tetap model produksi,
+        // badge konsensus akan berbunyi "Risiko Rendah" tepat di samping hasil utama
+        // yang berbunyi "Risiko Tinggi" -- satu halaman, dua pesan bertentangan.
         $history = $this->riwayatPalsu([
             'probability' => 20.0,
             'knn_probability' => 95.0,
@@ -213,8 +218,8 @@ class MultiModelPredictionTest extends TestCase
         $perbandingan = $this->prediksi->rakitPerbandingan($history, $this->katalogPalsu());
         $konsensus = $this->prediksi->konsensus($perbandingan);
 
-        $this->assertSame(0, $konsensus['label']);
-        $this->assertSame(1, $konsensus['setuju']);
+        $this->assertSame(1, $konsensus['label'], 'label harus ikut model tertinggi');
+        $this->assertSame(2, $konsensus['setuju']);
         $this->assertFalse($konsensus['bulat']);
     }
 

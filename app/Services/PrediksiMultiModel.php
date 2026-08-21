@@ -258,12 +258,20 @@ class PrediksiMultiModel
         }
 
         $daftar = array_values($perbandingan);
+
+        // Acuan konsensus adalah model dengan PROBABILITAS TERTINGGI, sama dengan
+        // aturan yang dipakai kolomDariHasil() untuk menentukan hasil pasien.
+        // Sebelumnya acuannya model produksi; itu membuat badge konsensus bisa
+        // berbunyi "2 dari 3 model: Risiko Rendah" tepat di samping hasil utama
+        // yang berbunyi "Risiko Tinggi" -- satu halaman, dua pesan bertentangan.
         $acuan = null;
 
         foreach ($daftar as $model) {
-            if (!empty($model['produksi'])) {
+            if (!isset($model['probability']) || !is_numeric($model['probability'])) {
+                continue;
+            }
+            if ($acuan === null || (float) $model['probability'] > (float) $acuan['probability']) {
                 $acuan = $model;
-                break;
             }
         }
 
